@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>People</title>
+    {{>logo}}
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        #info{
+            display: none;
+        }
+        #home{
+            display: none;
+        }
+        #more{
+            display: none;
+        }
+        #previous{
+            display: none;
+        }
+        #next{
+            display: inline-block;
+            float: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        {{>header}}
+        <p id="message-1"></p>
+        <div id="info">
+            <p id="message-2"></p>
+            <p id="message-3"></p>
+            <p id="message-4"></p>
+            <br>
+            <button id="next" >Next</button>
+            <!--<br>
+            <br>
+            <button id="interests" >Your chosen interests</button>-->
+        </div>   
+        <button id="previous" >Previous</button>   
+        <button id="more" >Load more</button>
+        <button id="home" >Go home</button>
+    </div>
+
+    <script src="/js/people.js"></script>
+</body>
+
+</html>

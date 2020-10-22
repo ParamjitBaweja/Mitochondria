@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Choose your interests</title>
+    {{>logo}}
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/interests.css">
+</head>
+
+<body>
+    <div class="main-content">
+        {{>header}}
+        <p>Choose 10 interests to proceed</p>
+        <p id="message-1">0 of 10 selected</p>
+        <input type="text" id="myInput" onkeyup="myFunction()" 
+        placeholder="Search for interests.." title="Type in an interest">
+        <br>
+        <br>
+        {{>inter}}
+    </div>
+
+    <script src="/js/interests.js"></script>
+</body>
+
+</html>
+	

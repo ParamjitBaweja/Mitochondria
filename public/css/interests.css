@@ -1,0 +1,10 @@
+input {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+}
+#interests{
+    display: block;
+}

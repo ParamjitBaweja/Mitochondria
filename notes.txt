@@ -1,0 +1,5 @@
+logout functionality not working
+JWT not getting deleted from database, is working via postman, problem in code.
+
+Add - ttl for JWT in user model
+Add - architecture to be able send and rec requests and be able to see em in a list
