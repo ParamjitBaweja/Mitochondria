@@ -3,7 +3,12 @@ const path = require('path')
 const hbs = require('hbs')
 var cookieParser = require('cookie-parser')
 const processes = require('./routers/processes')
-const axios = require('axios')
+const main = require('./routers/main')
+const http = require('http')
+const socketio = require('socket.io')
+const Filter = require('bad-words')
+const {generateMessage,generateLocationMessage}=require('./utils/messages')
+const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/users')
 
 
 ///paths
@@ -12,6 +17,8 @@ const viewpath=path.join(__dirname,'../Temp/View')
 const partialpath=path.join(__dirname,'../Temp/Partial')
 
 const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 const port=process.env.PORT||3000
 
 //set up handle bars for express
@@ -23,82 +30,80 @@ app.use(express.static(publicpath))
 app.use(cookieParser())
 
 app.use(processes)
-app.get('',(req,res)=>{
-    res.redirect('/profile')
-}) 
-app.get('/login',(req,res)=>{
-    res.render('login',{
-        title:'Login',
-    })
-})  
-app.get('/profile',(req,res)=>{
-    res.render('view',{
-        title:'Your Profile',
-    })
-}) 
-app.get('/signup',(req,res)=>{
-    res.render('signup',{
-        title:'Sign Up',
-    })
-}) 
-app.get('/interests',(req,res)=>{
-    res.render('interests',{
-        title:'Choose your Interests',
-    })
-})
-app.get('/interests/you',(req,res)=>{
-    res.render('yourinterests',{
-        title:'Your interests',
-    })
-})
-app.get('/bio',(req,res)=>{
-    res.render('bio',{
-        title:'Update your bio',
-    })
-})
-app.get('/details',(req,res)=>{
-    res.render('details',{
-        title:'Choose your Interests',
-    })
-})
-app.get('/people',(req,res)=>{
-    res.render('people',{
-        title:'People',
-    })
-})
-app.get('/verify/:id', async(req,res)=>{
-    const _id= req.params.id
-    try {
-        const response = await axios.get(`https://mitochondria-api.herokuapp.com/verify/${req.params.id}`)
-        res.cookie('JWT', `${response.data.token}`, { maxAge: 24*3600000*15, httpOnly: true });
-        res.render('welcome',{
-            title:'Welcome',
+app.use(main)
+
+
+
+io.on('connection',(socket)=>{
+    console.log('new websocket connection')
+
+    //join deals with a specific room
+    socket.on('join',({username,room}, callback)=>{
+        
+        const {error,user}=addUser({id: socket.id, username, room})
+        
+        if(error){
+            return callback(error)
+        }
+
+        socket.join(user.room)
+        socket.emit('message',generateMessage('System','Welcome'))
+        //sends a welcome message to a user that joins
+
+        socket.broadcast.to(user.room).emit('message',generateMessage('System',`${user.username} has joined`))
+        //sends a message to all clients, except the new client,
+        //that a new client has joined
+
+        io.to(user.room).emit('roomData',{
+            room: user.room,
+            users: getUsersInRoom(user.room)
         })
-      }
-      catch(error)
-      {
-        console.log(error)
-        res.render('veriffail',{
-            title:'Link expired',
-        })
-      }
-})
-app.get('/help',(req,res)=>{
-    res.send({
-        error: 'page down for maintenance'
+
+        callback()
+        //acknowldeges that there was no error
     })
-})
-app.get('/help/*',(req,res)=>{
-    res.send('help article not found')
+
+    socket.on('sendMessage',(msg,callback)=>{
+        
+        const user=getUser(socket.id)
+        
+        const filter= new Filter()
+
+        if(filter.isProfane(msg)){
+            return callback('Profanity is not allowed!')
+        }
+
+        io.to(user.room).emit('message', generateMessage(user.username,msg))
+
+        callback()
+    })
+    //accepts what one client sends
+    //and sends it across to all the other clients
+
+    socket.on('disconnect',()=>{
+        const user = removeUser(socket.id)
+        if(user)
+        {
+            io.to(user.room).emit('message',generateMessage('System',`${user.username} has left`))
+            io.to(user.room).emit('roomData',{
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            })
+        }
+    })
+    //sends a message to all connected clients that 
+    //one client has diconnected
+    socket.on('sendLocation',(coords,callback)=>{
+        const user=getUser(socket.id)
+        io.to(user.room).emit('locationMessage',generateLocationMessage(user.username,`http://google.com/maps?q=${coords.latitude},${coords.longitude}`))
+        callback()
+    })
+    //shares the location as sent by the client, to all the clients
+    //including the client that sent it
 })
 
-app.get('/about',(req,res)=>{
-    res.send('help article not found')
-})
 
-app.get('*',(req,res)=>{
-    res.send("404")
-})
+
 app.listen(port,()=>{
     console.log('server is up on port'+port)
 })
