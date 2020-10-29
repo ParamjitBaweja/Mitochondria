@@ -6,10 +6,10 @@ const router = new express.Router()
 
 router.use(cookieParser())
 
-router.get('',(req,res)=>{
-    //res.redirect('/profile')
-    res.render('chat')
-}) 
+// router.get('',(req,res)=>{
+//     //res.redirect('/profile')
+//     res.render('chat')
+// }) 
 router.get('/login',(req,res)=>{
     res.render('login',{
         title:'Login',

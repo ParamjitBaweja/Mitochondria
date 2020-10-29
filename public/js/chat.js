@@ -1,6 +1,3 @@
-//const socket =require('socket.io-client')
-//const socket = io()
-//import io from 'socket.io-client'; 
 const socket = io()
 
 //Elements

@@ -104,6 +104,6 @@ io.on('connection',(socket)=>{
 
 
 
-app.listen(port,()=>{
+server.listen(port,()=>{
     console.log('server is up on port'+port)
 })
