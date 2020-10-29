@@ -4,7 +4,6 @@ const hbs = require('hbs')
 var cookieParser = require('cookie-parser')
 const processes = require('./routers/processes')
 const main = require('./routers/main')
-const people = require('./routers/people')
 const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
@@ -32,7 +31,6 @@ app.use(cookieParser())
 
 app.use(processes)
 app.use(main)
-app.use(people)
 
 
 

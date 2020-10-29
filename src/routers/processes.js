@@ -10,7 +10,8 @@ const {signup,
     logout,
     logoutAll,
     allInterests,
-    profiles
+    profiles,
+    sendRequest
     } = require('../requests')
 
 const router = new express.Router()
@@ -134,6 +135,7 @@ router.get('/process/login', async (req,res)=>{
         res.send({error})
     }
 })
+
 router.get('/process/signup', async (req,res)=>{
     if (!req.query.email) {
         return res.send({
@@ -315,7 +317,6 @@ router.get('/process/people', async (req,res)=>
     }
 })
    
-
 router.get('/process/people/profiles', async (req,res)=>
 {
     const token = req.cookies['JWT']
@@ -329,6 +330,34 @@ router.get('/process/people/profiles', async (req,res)=>
                     return res.send({error: "Something went wrong"})
                 }
                 res.send({ age,bio,owner })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/people/send', async (req,res)=>
+{
+    console.log("something please")
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            console.log(req.query.id)
+            await sendRequest(token,req.query.id,(error)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({
+                })
             })
         }
         catch(error)
