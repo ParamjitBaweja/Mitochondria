@@ -77,7 +77,7 @@ const viewinterests = async function(token,callback)
     const response = await axios.get('https://mitochondria-api.herokuapp.com/interests/me',
     config
     )
-    console.log(response)
+    //console.log(response)
     callback('',{
       interests: response.data.interests,
       owner: response.data.owner
@@ -204,7 +204,7 @@ const allInterests = async function(token,callback)
     const response = await axios.get('https://mitochondria-api.herokuapp.com/interests',
     config
     )
-    console.log(response)
+    //console.log(response)
     callback('',{
       interests: response.data.interests,
       owners: response.data.owners
@@ -221,8 +221,8 @@ const profiles = async function(token,ids,callback)
 {
   
   try {
-    console.log("right before calling")
-    console.log(token)
+    // console.log("right before calling")
+    // console.log(token)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
@@ -236,7 +236,7 @@ const profiles = async function(token,ids,callback)
     var age = new Array()
     var bio = new Array()
     var owner = new Array()
-    console.log(response)
+    //console.log(response)
     for(i=0;i<response.data.length;i++){
       age[i]=response.data[i].age
       bio[i]=response.data[i].bio
@@ -251,6 +251,30 @@ const profiles = async function(token,ids,callback)
   }
 }
 
+const sendRequest =  async function(token,id,callback)  
+{
+  console.log("OUTPUTTTTTTTTTTTTTTTTTT")
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      id
+    };
+    const response = await axios.post('https://mitochondria-api.herokuapp.com/requests/send',
+    bodyParameters,
+    config
+    )
+    console.log(response)
+    callback('')
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback({error})
+  }
+}
+
 module.exports = {
   signup,
   login,
@@ -262,7 +286,8 @@ module.exports = {
   logout,
   logoutAll,
   allInterests,
-  profiles
+  profiles,
+  sendRequest
 }
 // const https = require('http')
 

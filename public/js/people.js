@@ -25,6 +25,21 @@ document.getElementById("previous").onclick = function () {
 document.getElementById("home").onclick = function () {
     window.location.pathname = '/profile'
 };
+document.getElementById("request").onclick = function () {
+    console.log(owners[index])
+    console.log('/people/send?id='+owners[index])
+    fetch('/people/send?id='+owners[index]).then((response)=>{
+            response.json().then((data) => {
+                if (data.error) {
+                    console.log("error")
+                    console.log(data.error)
+                } else {
+                    console.log("sent")
+                    console.log(data)
+                }
+            })
+        })
+};
 document.getElementById("more").onclick = function () {
     if(index===owners.length-1)
     {
@@ -48,8 +63,8 @@ fetch('/process/interests/you').then((response)=>{
         else {
             me=data.interests
             filter = data.owner
-            console.log("beginning")
-            console.log(me)
+            // console.log("beginning")
+            // console.log(me)
             messageOne.textContent = 'Sorting users based on your interests...'
             fetch('/process/people').then((response)=>{
                 response.json().then(async(data) => {
@@ -57,7 +72,7 @@ fetch('/process/interests/you').then((response)=>{
                     {
                         console.log(data.error)
                     }
-                    console.log(data)
+                    //console.log(data)
                     interests = data.interests
                     owners = data.owners
                     
@@ -77,8 +92,8 @@ fetch('/process/interests/you').then((response)=>{
                     {
                         var u = interests[i]
                         var count =0
-                        console.log(u)
-                        console.log(me)
+                        // console.log(u)
+                        // console.log(me)
                         for(j=0;j<u.length;j++)
                         {
                             for(k=0;k<me.length;k++)
@@ -91,7 +106,7 @@ fetch('/process/interests/you').then((response)=>{
                         }  
                         match.push(count)
                     }
-                    console.log(match)
+                    //console.log(match)
                     for(j=0;j<match.length;j++)
                     {
                         for(i=0;i<match.length-1;i++)
@@ -170,7 +185,7 @@ function next()
             messageFour.textContent = bio[i]
         }
     }
-    console.log(bio.length)
+    //console.log(bio.length)
     if((index-min)==(bio.length-1))
     {
         document.getElementById('next').style.display='none'
@@ -246,13 +261,13 @@ function load()
     {
         tempowners[j]=owners[i]
     }
-    console.log(tempowners)
+    //console.log(tempowners)
     var x = tempowners.toString();
     fetch('/process/people/profiles?ids='+x).then((response)=>{
         response.json().then((data) => {
             if (data.error) {
                 messageOne.textContent = data.error
-                console.log(data.error)
+                //console.log(data.error)
                 //window.location.pathname = '/login'
             } else {
                 age=data.age

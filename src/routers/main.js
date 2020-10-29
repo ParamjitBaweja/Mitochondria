@@ -15,11 +15,7 @@ router.get('/login',(req,res)=>{
         title:'Login',
     })
 })  
-router.get('/profile',(req,res)=>{
-    res.render('view',{
-        title:'Your Profile',
-    })
-}) 
+
 router.get('/signup',(req,res)=>{
     res.render('signup',{
         title:'Sign Up',
