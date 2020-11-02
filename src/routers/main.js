@@ -23,6 +23,12 @@ router.get('/profile',(req,res)=>{
     })
 }) 
 
+router.get('/profile/people',(req,res)=>{
+    res.render('allrequests',{
+        title:'People',
+    })
+}) 
+
 router.get('/signup',(req,res)=>{
     res.render('signup',{
         title:'Sign Up',
@@ -53,10 +59,19 @@ router.get('/people',(req,res)=>{
         title:'People',
     })
 })
+router.get('/forgot',(req,res)=>{
+    res.render('forgot',{
+        title:'Forgot password',
+    })
+})
+router.get('/reset/:id',(req,res)=>{
+    res.render('reset',{
+        title:'Reset Password',
+    })
+})
 router.get('/verify/:id', async(req,res)=>{
-    const _id= req.params.id
     try {
-        const response = await axios.get(`https://mitochondria-api.herokurouter.com/verify/${req.params.id}`)
+        const response = await axios.get(`https://mitochondria-api.herokuapp.com/verify/${req.params.id}`)
         res.cookie('JWT', `${response.data.token}`, { maxAge: 24*3600000*15, httpOnly: true });
         res.render('welcome',{
             title:'Welcome',

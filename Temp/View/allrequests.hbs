@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>People</title>
+    {{>logo}}
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        #info{
+            display: none;
+            
+        }
+        #request{
+            display: none;
+        }
+        #previous{
+            display: none;
+            float:left;
+        }
+        #next{
+            display: inline-block;
+            float: right;
+        }
+        #back{
+            display: none;
+        }
+        .profiles{
+            display: none;
+        }
+        .init{
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-content">
+        <div class="init">
+            {{>header}}
+            <div id = " deets">
+                <br>
+                    <input onclick="sentfunc()" type="button" value="Loading..." id="sent" />
+                <br>
+                <br>
+                    <input onclick="recfunc()" type="button" value="Loading..." id="rec" />
+                <br>
+                <br>
+                    <input onclick="friendsfunc()" type="button" value="Loading..." id="friends" />
+            </div>
+        </div>
+        <div class="profiles">
+            <h1>Profile</h1>
+            <h2 id="names"></h2>
+            <p id="message-1"></p>
+            <div id="info">
+                <p id="message-2"></p>
+                <p id="message-3"></p>
+                <p id="message-4"></p>
+                <br>
+                <input onclick="requestfunc()" type="button" value="Loading..." id="request" />
+                <br>
+                <br>
+                <button id="next" >Next</button>
+            </div>  
+            <button id="previous" >Previous</button>
+            <input onclick="backfunc()" type="button" value="Back" id="back" />
+        </div>
+    </div>
+
+    <script src="/js/allrequests.js"></script>
+</body>
+
+</html>

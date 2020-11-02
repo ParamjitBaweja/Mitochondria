@@ -11,7 +11,12 @@ const {signup,
     logoutAll,
     allInterests,
     profiles,
-    sendRequest
+    sendRequest,
+    acceptRequest,
+    allRequests,
+    forgot,
+    reset,
+    seenProfiles
     } = require('../requests')
 
 const router = new express.Router()
@@ -162,6 +167,9 @@ router.get('/process/signup', async (req,res)=>{
     }
     if(req.query.password.toLowerCase().includes('password')){
         return res.send({error:'Your password cannot contain "password"'})
+    }
+    if(req.query.password.length<=7){
+        return res.send({error:'Your password needs to be more than 7 characters long'})
     }
         
     try{
@@ -370,5 +378,151 @@ router.get('/people/send', async (req,res)=>
     }
 })
 
+router.get('/people/accept', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await acceptRequest(token,req.query.id,(error)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({
+                })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/requests/all', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await allRequests(token,(error,{ sent, rec, friends, names, position, rooms, blocked,owner})=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                    
+                }
+                res.send({
+                    sent, 
+                    rec,
+                    friends,
+                    names,
+                    position, 
+                    rooms, 
+                    blocked,
+                    owner
+                })
+            })
+        }
+        catch(error)
+        {
+            console.log(error)
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/process/forgot', async (req,res)=>{
+    if (!req.query.email) {
+        return res.send({
+            error: 'You must provide an email!'
+        })
+    }
+    try{
+        await forgot(req.query.email,(error,data)=>{
+            if(error)
+            {
+                return res.send({error})
+            }
+            res.send({data:'sent successfully'})
+        })
+    }
+    catch(error)
+    {
+        res.send({error})
+    }
+})
+
+router.get('/process/reset', async (req,res)=>{
+    if (!req.query.password) {
+        return res.send({
+            error: 'You must provide your password!'
+        })
+    }
+    if(req.query.password != req.query.repass)
+    {
+        console.log(req.query.password)
+        console.log(req.query.repass)
+        return res.send({
+            error: 'The passwords must match!'
+        })
+    }
+    if(req.query.password.toLowerCase().includes('password')){
+        return res.send({error:'Your password cannot contain "password"'})
+    }
+     
+    if(req.query.password.length<=7){
+        return res.send({error:'Your password needs to be more than 7 characters long'})
+    }
+
+    try{
+        await reset(req.query.password,req.query.id, (error,data)=>{
+            if(error)
+            {
+                return res.send({error})
+            }
+            res.send({data:'Password reset'})
+        })
+    }
+    catch(error)
+    {
+        res.send({error})
+    }
+})
+
+router.get('/process/seen', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await seenProfiles(token,(error,{ids})=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({
+                    ids
+                })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
 
 module.exports=router

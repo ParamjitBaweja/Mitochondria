@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Reset Password</title>
+    {{>logo}}
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <div class="main-content">
+        {{>header}}
+        <h2>Enter your new password</h2>
+        <form>
+            <input id="password" type="password" placeholder="Password">
+            <br>
+            <br>
+            <input id="re-password" type="password" placeholder="Confirm Password">
+            <br>
+            <br>
+            <button id="reset">Reset</button>
+        </form>
+        <br>
+        <p id="message-1"></p>
+    </div>
+    <script src="/js/reset.js"></script>
+</body>
+
+</html>

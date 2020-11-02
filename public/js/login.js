@@ -20,7 +20,7 @@ login.addEventListener("click", (e) => {
                 messageOne.textContent = data.error
             } else {
                 messageOne.textContent = "Please wait..."
-                window.location.pathname = '/profile'
+                window.location.pathname = '/'
             }
         })
     })

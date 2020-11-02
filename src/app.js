@@ -47,17 +47,6 @@ io.on('connection',(socket)=>{
         }
 
         socket.join(user.room)
-        socket.emit('message',generateMessage('System','Welcome'))
-        //sends a welcome message to a user that joins
-
-        socket.broadcast.to(user.room).emit('message',generateMessage('System',`${user.username} has joined`))
-        //sends a message to all clients, except the new client,
-        //that a new client has joined
-
-        io.to(user.room).emit('roomData',{
-            room: user.room,
-            users: getUsersInRoom(user.room)
-        })
 
         callback()
         //acknowldeges that there was no error
@@ -66,13 +55,16 @@ io.on('connection',(socket)=>{
     socket.on('sendMessage',(msg,callback)=>{
         
         const user=getUser(socket.id)
-        
+        if(user==undefined)
+        {
+            return callback('refresh')
+        }
         const filter= new Filter()
 
         if(filter.isProfane(msg)){
             return callback('Profanity is not allowed!')
         }
-
+    
         io.to(user.room).emit('message', generateMessage(user.username,msg))
 
         callback()
@@ -80,26 +72,23 @@ io.on('connection',(socket)=>{
     //accepts what one client sends
     //and sends it across to all the other clients
 
+
+    socket.on('typing',(mode)=>{
+        
+        const user=getUser(socket.id)
+        if(user!=undefined)
+        {
+            socket.broadcast.to(user.room).emit('typing', mode)
+        }   
+        
+    })
+
+
     socket.on('disconnect',()=>{
         const user = removeUser(socket.id)
-        if(user)
-        {
-            io.to(user.room).emit('message',generateMessage('System',`${user.username} has left`))
-            io.to(user.room).emit('roomData',{
-                room: user.room,
-                users: getUsersInRoom(user.room)
-            })
-        }
     })
     //sends a message to all connected clients that 
     //one client has diconnected
-    socket.on('sendLocation',(coords,callback)=>{
-        const user=getUser(socket.id)
-        io.to(user.room).emit('locationMessage',generateLocationMessage(user.username,`http://google.com/maps?q=${coords.latitude},${coords.longitude}`))
-        callback()
-    })
-    //shares the location as sent by the client, to all the clients
-    //including the client that sent it
 })
 
 

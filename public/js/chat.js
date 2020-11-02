@@ -2,6 +2,7 @@ const socket = io()
 
 //Elements
 const messageForm = document.querySelector('#messageData')
+const messageZero = document.querySelector('#messageZero')
 const formInput = messageForm.querySelector('input')
 const formButton = messageForm.querySelector('button')
 const sendLocationButton = document.querySelector('#send-location')
@@ -12,10 +13,53 @@ const messageTemplate= document.querySelector('#message-template').innerHTML
 const locationMessageTemplate= document.querySelector('#locationMessage-template').innerHTML
 const sidebarTemplate= document.querySelector('#sidebar-template').innerHTML
 
-//options
-//const {username, room}=Qs.parse(location.search,{ignoreQueryPrefix:true})
 
-const {username, room}= {username: 'a', room: 'b'}
+//variables
+var friends = new Array()
+var names = new Array()
+var rooms = new Array()
+var position = new Array()
+var me=''
+var current=''
+
+messageZero.textContent = "Loading..."
+
+document.getElementById("findpeople").onclick = function () {
+    location.href = "/people";
+};
+
+//render contacts in the sidebar
+fetch('/requests/all').then((response)=>{
+    response.json().then((data) => {
+        if(data.error)
+        {
+            window.location.pathname = '/login'
+        }
+        friends = data.friends
+        names = data.names
+        rooms= data.rooms
+        position=data.position
+        me=data.owner
+        if(friends.length==0)
+        {
+            document.getElementById("findpeople").style.display='block'
+            messageZero.textContent = "You have no chats. Please find people to proceed."
+        }
+        else{
+        messageZero.textContent = ""
+        }
+        for(i=0; i < position.length;i++)
+        {
+            const index = rooms.indexOf(position[i])
+            const html = Mustache.render(sidebarTemplate,{
+                friendname: names[index]
+            })
+            //console.log(names[index])
+            document.querySelector('#sidebar').insertAdjacentHTML('beforeend',html)
+        }
+        
+    })
+})
 
 const autoscroll=()=>{
     //grab the last element to be rendered
@@ -36,43 +80,81 @@ const autoscroll=()=>{
     }
 }
 
-socket.emit('join',{username,room}, (error)=>{
-    if(error)
-    {
-        alert(error)
-        location.href='/'
-    }
-})
-
-socket.on('message', (message)=>{
-    console.log(message)
-    const html = Mustache.render(messageTemplate,{
-        username: message.username,
-        message: message.text,
-        createdAt: moment(message.createdAt).format('h:mm a')
-    })
-    messages.insertAdjacentHTML('beforeend',html)
-    autoscroll()
-})
-
-socket.on('locationMessage', (msg)=>{
-    console.log(msg)
-    const html = Mustache.render(locationMessageTemplate,{
-        username: msg.username,
-        url: msg.url,
-        createdAt: moment(msg.createdAt).format('h:mm a')
-    })
-    messages.insertAdjacentHTML('beforeend',html)
-    autoscroll()
-})
-
-socket.on('roomData',({room,users})=>
+function joinchat(name) 
 {
-    const html = Mustache.render(sidebarTemplate,{
-        room,
-        users
-    })
-    document.querySelector('#sidebar').innerHTML=html
+    const index = names.indexOf(name)
+    if(current!=names[index])
+    {
+        document.querySelector('.chat__main').style.display='flex'
+        if(index>-1)
+        {
+            current = names[index]
+            document.querySelector('#personname').textContent=current
+            const {username, room}= {username: me,room:rooms[index]}
+            socket.emit('join',{username,room}, (error)=>{
+                if(error)
+                {
+                    alert(error)
+                    location.href='/'
+                }
+            })
+        }
+    }
+}
+
+//render messages
+socket.on('message', (message)=>{
+
+    if(message.username===me)
+    {
+        const html = Mustache.render(locationMessageTemplate,{
+            message: message.text,
+            createdAt: moment(message.createdAt).format('h:mm a')
+        })
+        messages.insertAdjacentHTML('beforeend',html)
+        autoscroll()
+    }
+    else{
+        const html = Mustache.render(messageTemplate,{
+            message: message.text,
+            createdAt: moment(message.createdAt).format('h:mm a')
+        })
+        messages.insertAdjacentHTML('beforeend',html)
+    autoscroll()
+    }
+    
+})
+
+// socket.on('locationMessage', (msg)=>{
+//     console.log(msg)
+//     const html = Mustache.render(locationMessageTemplate,{
+//         username: msg.username,
+//         url: msg.url,
+//         createdAt: moment(msg.createdAt).format('h:mm a')
+//     })
+//     messages.insertAdjacentHTML('beforeend',html)
+//     autoscroll()
+// })
+
+
+var temptimeout
+socket.on('typing',(mode)=>
+{
+    if(mode===1)
+    {
+        document.querySelector('#info-message').textContent=`${current} is typing...`
+    }
+    else
+    {
+        if(temptimeout!=undefined)
+        {
+            clearTimeout(temptimeout)
+        }
+        temptimeout=setTimeout(() => {  
+            document.querySelector('#info-message').textContent=""
+         }, 1000);
+        
+    }
 })
 
 messageForm.addEventListener('submit',(e)=>{
@@ -93,29 +175,45 @@ messageForm.addEventListener('submit',(e)=>{
 
         if(error)
         {
+            if(error==='refresh')
+            {
+                window.location.pathname = '/'
+            }
             return console.log(error)
         }
         console.log('message delivered')
     })
 })
 
-sendLocationButton.addEventListener('click',(e)=>{
-    e.preventDefault()
+function startedTyping()
+{
+    mode=1
+    socket.emit('typing',mode)
+}
+function stoppedTyping()
+{
+    mode=0
+    socket.emit('typing',mode)
+}
 
-    sendLocationButton.setAttribute('disabled','disabled')
 
-    if(!navigator.geolocation)
-    {
-        return alert('Geolocation is not supported by your browser')
-    }
+// sendLocationButton.addEventListener('click',(e)=>{
+//     e.preventDefault()
 
-    navigator.geolocation.getCurrentPosition((position)=>{
-        socket.emit('sendLocation',{
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-        },()=>{
-            sendLocationButton.removeAttribute('disabled')
-            console.log('location shared')
-        })
-    })
-})
+//     sendLocationButton.setAttribute('disabled','disabled')
+
+//     if(!navigator.geolocation)
+//     {
+//         return alert('Geolocation is not supported by your browser')
+//     }
+
+//     navigator.geolocation.getCurrentPosition((position)=>{
+//         socket.emit('sendLocation',{
+//             latitude: position.coords.latitude,
+//             longitude: position.coords.longitude
+//         },()=>{
+//             sendLocationButton.removeAttribute('disabled')
+//             console.log('location shared')
+//         })
+//     })
+// })

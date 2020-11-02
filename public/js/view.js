@@ -17,6 +17,9 @@ document.getElementById("chats").onclick = function () {
 document.getElementById("findpeople").onclick = function () {
     location.href = "/people";
 };
+document.getElementById("people").onclick = function () {
+    location.href = "/profile/people";
+};
 document.getElementById("logout").onclick = function () {
     messageOne.textContent = "Logging you out...."
     fetch('/process/logout').then((response)=>{        

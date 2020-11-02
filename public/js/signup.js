@@ -14,8 +14,6 @@ login.addEventListener("click", (e) => {
     e.preventDefault()
     //const location = search.value
     messageOne.textContent = "Loading..."
-    console.log(repass.value)
-    console.log("repass.value")
     fetch(
         '/process/signup?email='+email.value+'&password='+password.value+'&name='+name.value
         +'&age='+age.value+'&repass='+repass.value

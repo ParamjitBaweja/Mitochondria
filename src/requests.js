@@ -21,7 +21,6 @@ const login = async function(email, password, callback)
     callback('Invalid Credentials', {})
   }
 }
-
 const signup = async function(email, password,name,age, callback)  
 {
   const bodyParameters = {
@@ -43,7 +42,6 @@ const signup = async function(email, password,name,age, callback)
     callback(`This email seems to be registered with us. If you haven't verified your e-mail address yet, we will resend your verification e-mail. If you have, pleaes try logging in.`, {})
   }
 }
-
 const view = async function(token,callback)  
 {
   
@@ -133,7 +131,6 @@ const updatebio = async function(token,bio,callback)
     callback(error)
   }
 }
-
 const updateinterests = async function(token,interests,callback)  
 {
   
@@ -157,7 +154,6 @@ const updateinterests = async function(token,interests,callback)
     callback(error)
   }
 }
-
 const logout = async function(token,callback)  
 {
   
@@ -175,7 +171,6 @@ const logout = async function(token,callback)
     callback(error)
   }
 }
-
 const logoutAll = async function(token,callback)  
 {
   
@@ -193,7 +188,6 @@ const logoutAll = async function(token,callback)
     callback(error)
   }
 }
-
 const allInterests = async function(token,callback)  
 {
   
@@ -216,7 +210,6 @@ const allInterests = async function(token,callback)
     callback(error, {})
   }
 }
-
 const profiles = async function(token,ids,callback)  
 {
   
@@ -250,10 +243,8 @@ const profiles = async function(token,ids,callback)
     callback("error",undefined)
   }
 }
-
 const sendRequest =  async function(token,id,callback)  
 {
-  console.log("OUTPUTTTTTTTTTTTTTTTTTT")
   try {
     const config = {
       headers: { Authorization: `Bearer ${token}` }
@@ -274,6 +265,109 @@ const sendRequest =  async function(token,id,callback)
     callback({error})
   }
 }
+const acceptRequest =  async function(token,id,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      id
+    };
+    const response = await axios.post('https://mitochondria-api.herokuapp.com/requests/accept',
+    bodyParameters,
+    config
+    )
+    console.log(response)
+    callback('')
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback({error})
+  }
+}
+const allRequests = async function(token,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const response = await axios.get('https://mitochondria-api.herokuapp.com/requests',
+    config
+    )
+    console.log(response.data)
+    callback('',{
+      sent: response.data.sent,
+      rec: response.data.rec,
+      friends: response.data.friends,
+      names: response.data.names,
+      rooms: response.data.rooms,
+      position: response.data.position,
+      blocked: response.data.blocked,
+      owner:response.data.owner
+    })
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback(error, {})
+  }
+}
+const forgot = async function(email, callback)  
+{
+  const bodyParameters = {
+  email
+  };
+  try{
+    const response= await axios.post( 
+    'https://mitochondria-api.herokuapp.com/forgot/password',
+    bodyParameters
+    )
+    callback('',response)
+  }
+  catch(error)
+  {
+    callback('Invalid Credentials', {})
+  }
+}
+const reset = async function(password, id, callback)  
+{
+  
+  try {
+    const bodyParameters = {
+      password
+    };
+    const response = await axios.patch(`https://mitochondria-api.herokuapp.com/reset/${id}`,
+    bodyParameters
+    )
+    console.log(response)
+    callback('', response)
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback({error: "Link expired"},{})
+  }
+}
+const seenProfiles = async function(token,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const response = await axios.get('https://mitochondria-api.herokuapp.com/seen',
+    config
+    )
+    callback('',{
+      ids: response.data
+    })
+  }
+  catch(error)
+  {
+    callback(error, {})
+  }
+}
 
 module.exports = {
   signup,
@@ -287,7 +381,12 @@ module.exports = {
   logoutAll,
   allInterests,
   profiles,
-  sendRequest
+  sendRequest,
+  acceptRequest,
+  allRequests,
+  forgot,
+  reset,
+  seenProfiles
 }
 // const https = require('http')
 
