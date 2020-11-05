@@ -48,7 +48,10 @@ fetch('/requests/all').then((response)=>{
         me=data.owner 
         unseen = data.unseen
         newmsgs  = data.newmsgs
-
+        if(rooms===undefined)
+        {
+            location.href='/profile'
+        }
         socket.emit('join',{username:me,room:me}, (error)=>{
             if(error)
             {
@@ -56,7 +59,7 @@ fetch('/requests/all').then((response)=>{
                 location.href='/'
             }
         }) 
-
+        
         if(rooms.length>0)
         {
             var x= rooms.toString()
