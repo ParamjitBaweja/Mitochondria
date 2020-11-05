@@ -32,67 +32,96 @@ app.use(cookieParser())
 app.use(processes)
 app.use(main)
 
-
-
 io.on('connection',(socket)=>{
-    console.log('new websocket connection')
 
-    //join deals with a specific room
-    socket.on('join',({username,room}, callback)=>{
-        
-        const {error,user}=addUser({id: socket.id, username, room})
-        
-        if(error){
-            return callback(error)
-        }
-
-        socket.join(user.room)
-
+    socket.on('join',({username,room}, callback)=>{         
+        socket.join([room,username])
         callback()
-        //acknowldeges that there was no error
     })
-
-    socket.on('sendMessage',(msg,callback)=>{
-        
-        const user=getUser(socket.id)
-        if(user==undefined)
-        {
-            return callback('refresh')
-        }
+    socket.on('typing',({room,mode})=>{  
+        socket.broadcast.to(room).emit('typing', mode)        
+    })
+    socket.on('newmessage',({notif,room})=>{  
+        socket.broadcast.to(room).emit('newmessage', notif)        
+    })
+    socket.on('sendMessage',({room,username,message},callback)=>{       
         const filter= new Filter()
 
-        if(filter.isProfane(msg)){
-            return callback('Profanity is not allowed!')
+        if(filter.isProfane(message)){
+            return callback('Please refrain from profanity')
         }
-    
-        io.to(user.room).emit('message', generateMessage(user.username,msg))
-
+        io.to(room).emit('message', generateMessage(username,message))
         callback()
     })
-    //accepts what one client sends
-    //and sends it across to all the other clients
-
-
-    socket.on('typing',(mode)=>{
-        
-        const user=getUser(socket.id)
-        if(user!=undefined)
-        {
-            socket.broadcast.to(user.room).emit('typing', mode)
-        }   
-        
+    socket.on('exit',({username,room})=>{
+        socket.leave(room)
     })
-
-
-    socket.on('disconnect',()=>{
-        const user = removeUser(socket.id)
-    })
-    //sends a message to all connected clients that 
-    //one client has diconnected
 })
-
-
 
 server.listen(port,()=>{
     console.log('server is up on port'+port)
 })
+
+// io.on('connection',(socket)=>{
+//     console.log('new websocket connection')
+
+//     //join deals with a specific room
+//     socket.on('join',({username,room}, callback)=>{
+        
+//         const {error,user}=addUser({id: socket.id, username, room})
+        
+//         if(error){
+//             return callback(error)
+//         }
+
+//         socket.join(user.room)
+
+//         callback()
+//         //acknowldeges that there was no error
+//     })
+
+//     socket.on('sendMessage',(msg,callback)=>{
+        
+//         const user=getUser(socket.id)
+//         if(user==undefined)
+//         {
+//             return callback('refresh')
+//         }
+//         const filter= new Filter()
+
+//         if(filter.isProfane(msg)){
+//             return callback('Profanity is not allowed!')
+//         }
+    
+//         io.to(user.room).emit('message', generateMessage(user.username,msg))
+
+//         callback()
+//     })
+//     //accepts what one client sends
+//     //and sends it across to all the other clients
+
+
+//     socket.on('typing',(mode)=>{
+        
+//         const user=getUser(socket.id)
+//         if(user!=undefined)
+//         {
+//             socket.broadcast.to(user.room).emit('typing', mode)
+//         }   
+        
+//     })
+
+//     socket.on('exit',({username,room})=>{
+//         socket.leave(room)
+//         const user = removeUser(socket.id)
+//     })
+
+//     socket.on('disconnect',()=>{
+//         const user = removeUser(socket.id)
+//     })
+//     //sends a message to all connected clients that 
+//     //one client has diconnected
+// })
+
+
+

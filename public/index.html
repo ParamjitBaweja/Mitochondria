@@ -8,6 +8,11 @@
             #names{
                 display: block;
             }
+            #names-new{
+                display: block;
+                background: skyblue;
+                color: black;
+            }
             .chat__main{
                 display: none;
             }
@@ -62,6 +67,12 @@
         </script>
         <script id="sidebar-template" type="text/html">
             <button type="button" onclick="joinchat('{{friendname}}')" id="names">{{friendname}}</button>
+        </script>
+        <script id="sidebar-template-new" type="text/html">
+            <button type="button" onclick="joinchat('{{friendname}}')" id="names-new">{{friendname}}</button>
+        </script>
+        <script id="showMore" type="text/html">
+            <button type="button" onclick="showMore()" >Show older chats</button>
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>

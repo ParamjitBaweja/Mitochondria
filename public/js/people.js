@@ -265,6 +265,10 @@ fetch('/process/interests/you').then((response)=>{
 
 function next()
 {
+    if((owners.length-min)==0)
+    {
+        return noprofiles()
+    }
     index++
     if(index==0)
     {
@@ -272,6 +276,15 @@ function next()
     }
     else
     {document.getElementById('previous').style.display='inline-block' }
+    if((index-min)==(owners.length-1))
+    {
+        document.getElementById('next').style.display='none'
+        document.getElementById('more').style.display='inline-block'
+    }
+    else{
+        document.getElementById('next').style.display='inline-block'
+        document.getElementById('more').style.display='none'
+    }
     messageOne.textContent= match[index]+'/10 of your interests match'
     messageTwo.textContent= interests[index]
     for(i=0;i<profileOwner.length;i++)
@@ -287,15 +300,6 @@ function next()
         }
     }
     //console.log(bio.length)
-    if((index-min)==(owners.length-1))
-    {
-        document.getElementById('next').style.display='none'
-        document.getElementById('more').style.display='inline-block'
-    }
-    else{
-        document.getElementById('next').style.display='inline-block'
-        document.getElementById('more').style.display='none'
-    }
 }
 
 function previous()

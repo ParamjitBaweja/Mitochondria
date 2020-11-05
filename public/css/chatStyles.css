@@ -94,7 +94,8 @@ button:disabled {
     color: white;
     background: #333744;
     width: 225px;
-    overflow-y: scroll
+    overflow-y: scroll;
+    text-align: center;
 }
 
 /* Chat styles */
@@ -128,7 +129,7 @@ button:disabled {
 
 .message__meta {
     color: #777;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .message a {

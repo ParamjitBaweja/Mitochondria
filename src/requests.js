@@ -305,7 +305,9 @@ const allRequests = async function(token,callback)
       rooms: response.data.rooms,
       position: response.data.position,
       blocked: response.data.blocked,
-      owner:response.data.owner
+      owner:response.data.owner,
+      newmsgs: response.data.new,
+      unseen: response.data.unseen
     })
   }
   catch(error)
@@ -368,7 +370,94 @@ const seenProfiles = async function(token,callback)
     callback(error, {})
   }
 }
-
+const sendMessage =  async function(token,id,message, sender, time,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      id,
+      message,
+      sender,
+      time
+    };
+    const response = await axios.post('https://mitochondria-api.herokuapp.com/send/message',
+    bodyParameters,
+    config
+    )
+    console.log(response)
+    callback('')
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback({error})
+  }
+}
+const allChats = async function(token,ids,callback)  
+{
+  
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      ids
+    };
+    const response = await axios.patch('https://mitochondria-api.herokuapp.com/messages/all',
+    bodyParameters,
+    config
+    )
+    callback('',response.data)
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback("error",undefined)
+  }
+}
+const oldChats = async function(token, id ,callback)  
+{
+  
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const response = await axios.get(`https://mitochondria-api.herokuapp.com/messages/${id}`,
+    config
+    )
+    callback('',response.data)
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback(error, {})
+  }
+}
+const updateMeta =  async function(token,room,friend,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      room,
+      friend
+    };
+    const response = await axios.post('https://mitochondria-api.herokuapp.com/update/meta',
+    bodyParameters,
+    config
+    )
+    console.log(response)
+    callback('')
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback(error)
+  }
+}
 module.exports = {
   signup,
   login,
@@ -386,7 +475,11 @@ module.exports = {
   allRequests,
   forgot,
   reset,
-  seenProfiles
+  seenProfiles,
+  sendMessage,
+  allChats,
+  oldChats,
+  updateMeta
 }
 // const https = require('http')
 

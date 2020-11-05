@@ -12,6 +12,8 @@ const messages = document.querySelector('#messages')
 const messageTemplate= document.querySelector('#message-template').innerHTML
 const locationMessageTemplate= document.querySelector('#locationMessage-template').innerHTML
 const sidebarTemplate= document.querySelector('#sidebar-template').innerHTML
+const sidebarTemplateNew= document.querySelector('#sidebar-template-new').innerHTML
+const showMoreButton = document.querySelector('#showMore').innerHTML
 
 
 //variables
@@ -21,12 +23,16 @@ var rooms = new Array()
 var position = new Array()
 var me=''
 var current=''
-
+var unseen = new Array()
+var newmsgs = new Array()
+var allmsgs = new Array()
+var oldchats = new Array()
 messageZero.textContent = "Loading..."
 
 document.getElementById("findpeople").onclick = function () {
     location.href = "/people";
 };
+
 
 //render contacts in the sidebar
 fetch('/requests/all').then((response)=>{
@@ -39,44 +45,122 @@ fetch('/requests/all').then((response)=>{
         names = data.names
         rooms= data.rooms
         position=data.position
-        me=data.owner
-        if(friends.length==0)
+        me=data.owner 
+        unseen = data.unseen
+        newmsgs  = data.newmsgs
+
+        socket.emit('join',{username:me,room:me}, (error)=>{
+            if(error)
+            {
+                alert(error)
+                location.href='/'
+            }
+        }) 
+
+        if(rooms.length>0)
         {
-            document.getElementById("findpeople").style.display='block'
-            messageZero.textContent = "You have no chats. Please find people to proceed."
+            var x= rooms.toString()
+            fetch('/chats/all?ids='+x).then((response)=>{
+                response.json().then((data) => {
+                    if (data.error) {
+                        messageOne.textContent = data.error
+                        window.location.pathname = '/login'
+                    } else {
+                        allmsgs= data
+                        sidebarRender()
+                    }
+                })
+            })
         }
         else{
-        messageZero.textContent = ""
+            sidebarRender()
         }
-        for(i=0; i < position.length;i++)
-        {
-            const index = rooms.indexOf(position[i])
-            const html = Mustache.render(sidebarTemplate,{
-                friendname: names[index]
-            })
-            //console.log(names[index])
-            document.querySelector('#sidebar').insertAdjacentHTML('beforeend',html)
-        }
-        
     })
 })
 
-const autoscroll=()=>{
-    //grab the last element to be rendered
-    const newMessage = messages.lastElementChild
-    //get the height of the last message
-    const newMessageStlyes = getComputedStyle(newMessage)
-    const newMessageMargin = parseInt(newMessageStlyes.marginBottom)
-    const newMessageHeight = newMessage.offsetHeight+newMessageMargin
-    //visible height
-    const visibleHeight = messages.offsetHeight
-    //height of messages container
-    const containerHeight = messages.scrollHeight
-    //how far has a user scrolled
-    const scrollOffset = messages.scrollTop + visibleHeight
+function sidebarRender()
+{
+    document.querySelector('#sidebar').innerHTML = '<p id="messageZero"></p><button id="findpeople" >Find People</button>'
+    if(friends.length==0)
+    {
+        document.getElementById("findpeople").style.display='block'
+        messageZero.textContent = "You have no chats. Please find people to proceed."
+    }
+    else{
+    messageZero.textContent = ""
+    }
+    for(i=0; i < position.length;i++)
+    {
+        const newindex= newmsgs.indexOf(position[i])
+        const index = rooms.indexOf(position[i])
+        var html=''
+        if(newindex>-1)
+        {
+            html = Mustache.render(sidebarTemplateNew,{
+                friendname: names[index]
+            })
+        }
+        else{
+            html = Mustache.render(sidebarTemplate,{
+                friendname: names[index]
+            })
+        }
+        //console.log(names[index])
+        document.querySelector('#sidebar').insertAdjacentHTML('beforeend',html)
+    }
+}
 
-    if(containerHeight-newMessageHeight <= scrollOffset){
-        messages.scrollTop = messages.scrollHeight
+function messagesRender(index)
+{
+    for(i=0;i<allmsgs.length;i++)
+    {
+        if(rooms[index]===allmsgs[i]._id)
+        {
+            if(allmsgs[i].messages[0].sender!=="System")
+            {
+                const html = Mustache.render(showMoreButton)
+                messages.insertAdjacentHTML('beforeend',html)
+                //autoscroll()
+                messages.scrollTop = messages.scrollHeight
+            }
+            for(j=0;j<allmsgs[i].messages.length;j++)
+            {
+                if(allmsgs[i].messages[j].sender===me)
+                {
+                    const html = Mustache.render(locationMessageTemplate,{
+                        message: allmsgs[i].messages[j].message,
+                        createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                    })
+                    messages.insertAdjacentHTML('beforeend',html)
+                    //autoscroll()
+                    messages.scrollTop = messages.scrollHeight
+                }
+                else if(allmsgs[i].messages[j].sender==='System')
+                {
+                    const html = Mustache.render(messageTemplate,{
+                        message: "Hello",
+                        //createdAt: "System"
+                    })
+                    messages.insertAdjacentHTML('beforeend',html)
+                    //autoscroll()
+                    messages.scrollTop = messages.scrollHeight
+                }
+                else{
+                    const html = Mustache.render(messageTemplate,{
+                        message: allmsgs[i].messages[j].message,
+                        createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                    })
+                    messages.insertAdjacentHTML('beforeend',html)
+                    //autoscroll()
+                    messages.scrollTop = messages.scrollHeight
+                }
+            }
+        }
+    }
+    const searchind = newmsgs.indexOf(rooms[index])
+    if(searchind >-1)
+    {
+        updateMetaFunction(index)
     }
 }
 
@@ -85,6 +169,12 @@ function joinchat(name)
     const index = names.indexOf(name)
     if(current!=names[index])
     {
+        if(current)
+        {
+            const tempind = names.indexOf(current)
+            socket.emit('exit',{username:me,room:rooms[tempind]})
+        }
+        document.querySelector('#messages').innerHTML=""
         document.querySelector('.chat__main').style.display='flex'
         if(index>-1)
         {
@@ -97,6 +187,7 @@ function joinchat(name)
                     alert(error)
                     location.href='/'
                 }
+                messagesRender(index)
             })
         }
     }
@@ -125,17 +216,58 @@ socket.on('message', (message)=>{
     
 })
 
-// socket.on('locationMessage', (msg)=>{
-//     console.log(msg)
-//     const html = Mustache.render(locationMessageTemplate,{
-//         username: msg.username,
-//         url: msg.url,
-//         createdAt: moment(msg.createdAt).format('h:mm a')
-//     })
-//     messages.insertAdjacentHTML('beforeend',html)
-//     autoscroll()
-// })
+//send message
+messageForm.addEventListener('submit',(e)=>{
+    e.preventDefault()
+    formButton.setAttribute('disabled','disabled')
+    //disable the send button while the message is being sent
+    const message = e.target.elements.message.value
+    //const timestamp = Date.now();
+    const timestamp = moment().toISOString();
+    const roomind = names.indexOf(current)
+    formInput.value=''
+    formInput.focus()
+    fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+me+'&time='+timestamp).then((response)=>{
+        response.json().then((data) => {
+            if (data.error) {
+                console.log("error")
+                console.log(data.error)
+            } else {
+                socket.emit("sendMessage",{room:rooms[roomind],username:me,message},(error)=>{        
+                    formButton.removeAttribute('disabled')
+                    if(error)
+                    {
+                        alert(error)
+                    }
+                })
+                socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
+                var tempind = position.indexOf(rooms[roomind])
+                if(tempind>-1)
+                {
+                    position.splice(tempind,1)
+                }
+                position.unshift(rooms[roomind])
+                var tempind = unseen.indexOf(rooms[roomind])
+                if(tempind>-1)
+                {
+                    unseen.splice(tempind,1)
+                }
+                unseen.unshift(rooms[roomind])
+                sidebarRender()
+            }
+        })
+    })  
+      
+})
 
+
+function autoscroll()
+{
+    if( (messages.scrollHeight-messages.offsetHeight)<=(messages.scrollTop+100))
+    {
+        messages.scrollTop = messages.scrollHeight
+    }
+}
 
 var temptimeout
 socket.on('typing',(mode)=>
@@ -157,45 +289,171 @@ socket.on('typing',(mode)=>
     }
 })
 
-messageForm.addEventListener('submit',(e)=>{
-    e.preventDefault()
-
-    formButton.setAttribute('disabled','disabled')
-    //disable the send button while the message is being sent
-
-    const message = e.target.elements.message.value
-    socket.emit("sendMessage",message,(error)=>{
-        
-        formButton.removeAttribute('disabled')
-        formInput.value=''
-        formInput.focus()
-        //re-enable the send button after the message is sent
-        //clear the input box of all text
-        //bring the cursor back to the start of the box
-
-        if(error)
+socket.on('newmessage', (notif)=>{
+    //console.log("here")
+    var flag=0
+    var tempindex = names.indexOf(current)
+    if(tempindex>-1)
+    {
+        if(rooms[tempindex]===notif)
         {
-            if(error==='refresh')
-            {
-                window.location.pathname = '/'
-            }
-            return console.log(error)
+            flag=1
         }
-        console.log('message delivered')
-    })
+    }
+    if(flag==1){
+        var index = position.indexOf(notif)
+            if(index>-1)
+            {
+                position.splice(index,1)
+                position.unshift(notif)
+            }
+            updateMetaFunction(tempindex)
+    }
+    else
+    {
+        var index = position.indexOf(notif)
+        if(index>-1)
+        {
+            position.splice(index,1)
+            position.unshift(notif)
+        }
+        var index = newmsgs.indexOf(notif)
+        if(index>-1)
+        {
+            newmsgs.splice(index,1)
+        }
+        newmsgs.unshift(notif)
+        //console.log("loading.......")
+        var x= rooms.toString()
+        fetch('/chats/all?ids='+x).then((response)=>{
+            response.json().then((data) => {
+                if (data.error) {
+                    console.log(data.error)
+                    //window.location.pathname = '/login'
+                } else {
+                    allmsgs= data
+                    //console.log(data)
+                    sidebarRender()
+                }
+            })
+        })
+    }  
+    
 })
 
 function startedTyping()
 {
+    const tempind = names.indexOf(current)
     mode=1
-    socket.emit('typing',mode)
-}
-function stoppedTyping()
-{
-    mode=0
-    socket.emit('typing',mode)
+    socket.emit('typing',{mode, room:rooms[tempind]})
 }
 
+function stoppedTyping()
+{
+    const tempind = names.indexOf(current)
+    mode=0
+    socket.emit('typing',{mode, room:rooms[tempind]})
+}
+
+function showMore()
+{
+    const index = names.indexOf(current)
+    fetch('/chats/old?id='+rooms[index]).then((response)=>{
+        response.json().then((data) => {
+            if (data.error) {
+                messageOne.textContent = data.error
+                window.location.pathname = '/login'
+            } else {
+                oldchats= data.messages
+                oldChatsRender()
+            }
+        })
+    })
+}
+
+function oldChatsRender()
+{
+    document.querySelector('#messages').innerHTML=""
+    for(i=0;i<oldchats.length;i++)
+    {
+        if(oldchats[i].sender===me)
+        {
+            const html = Mustache.render(locationMessageTemplate,{
+                message: oldchats[i].message,
+                createdAt: moment(oldchats[i].time).format('h:mm a')
+            })
+            messages.insertAdjacentHTML('beforeend',html)
+            messages.scrollTop = messages.scrollHeight
+        }
+        else if(oldchats[i].sender==='System')
+        {
+            const html = Mustache.render(messageTemplate,{
+                message: "Hello",
+                //createdAt: "System"
+            })
+            messages.insertAdjacentHTML('beforeend',html)
+            messages.scrollTop = messages.scrollHeight
+        }
+        else{
+            const html = Mustache.render(messageTemplate,{
+                message: oldchats[i].message,
+                createdAt: moment(oldchats[i].time).format('h:mm a')
+            })
+            messages.insertAdjacentHTML('beforeend',html)
+            messages.scrollTop = messages.scrollHeight
+        }
+    }
+}
+
+
+function updateMetaFunction(index)
+{
+    fetch('/update/meta?room='+rooms[index]+'&friend='+friends[index]).then((response)=>{
+        response.json().then((data) => {
+            if (data.error) {
+                console.log(data.error)                
+            }
+        })
+    })
+    const tempsearchind = newmsgs.indexOf(rooms[index])
+    if(tempsearchind >-1)
+    {
+        newmsgs.splice(tempsearchind,1)
+    }
+    sidebarRender()
+}
+
+
+
+// const autoscroll=()=>{
+//     //grab the last element to be rendered
+//     const newMessage = messages.lastElementChild
+//     //get the height of the last message
+//     const newMessageStlyes = getComputedStyle(newMessage)
+//     const newMessageMargin = parseInt(newMessageStlyes.marginBottom)
+//     const newMessageHeight = newMessage.offsetHeight+newMessageMargin
+//     //visible height
+//     const visibleHeight = messages.offsetHeight
+//     //height of messages container
+//     const containerHeight = messages.scrollHeight
+//     //how far has a user scrolled
+//     const scrollOffset = messages.scrollTop + visibleHeight
+
+//     if(containerHeight-newMessageHeight <= scrollOffset){
+//         messages.scrollTop = messages.scrollHeight
+//     }
+// }
+
+// socket.on('locationMessage', (msg)=>{
+//     console.log(msg)
+//     const html = Mustache.render(locationMessageTemplate,{
+//         username: msg.username,
+//         url: msg.url,
+//         createdAt: moment(msg.createdAt).format('h:mm a')
+//     })
+//     messages.insertAdjacentHTML('beforeend',html)
+//     autoscroll()
+// })
 
 // sendLocationButton.addEventListener('click',(e)=>{
 //     e.preventDefault()

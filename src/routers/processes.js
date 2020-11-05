@@ -16,7 +16,11 @@ const {signup,
     allRequests,
     forgot,
     reset,
-    seenProfiles
+    seenProfiles,
+    sendMessage,
+    allChats,
+    oldChats,
+    updateMeta
     } = require('../requests')
 
 const router = new express.Router()
@@ -410,7 +414,7 @@ router.get('/requests/all', async (req,res)=>
     if (token) 
     { 
         try{
-            await allRequests(token,(error,{ sent, rec, friends, names, position, rooms, blocked,owner})=>
+            await allRequests(token,(error,{ sent, rec, friends, names, position, rooms, blocked,owner, unseen, newmsgs})=>
             {
                 if(error)
                 {
@@ -425,7 +429,9 @@ router.get('/requests/all', async (req,res)=>
                     position, 
                     rooms, 
                     blocked,
-                    owner
+                    owner,
+                    unseen,
+                    newmsgs
                 })
             })
         }
@@ -513,6 +519,107 @@ router.get('/process/seen', async (req,res)=>
                 res.send({
                     ids
                 })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/message/send', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await sendMessage(token,req.query.id,req.query.message, req.query.sender,req.query.time,(error)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({
+                })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/chats/all', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await allChats(token,req.query.ids,(error,data)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send(data)
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/chats/old', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await oldChats(token,req.query.id,(error,data)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send(data)
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/update/meta', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await updateMeta(token,req.query.room,req.query.friend,(error)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({message:"updated"})
             })
         }
         catch(error)
