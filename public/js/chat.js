@@ -249,7 +249,11 @@ messageForm.addEventListener('submit',(e)=>{
     formInput.value=''
     formInput.focus()
     socket.emit("sendMessage",{room:rooms[roomind],username:me,message},(error)=>{        
-                    
+        var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+        if(width<=650)
+        {
+            messages.scrollTop = messages.scrollHeight
+        }                
         if(error)
         {
             alert(error)
@@ -311,7 +315,6 @@ socket.on('typing',(mode)=>
         temptimeout=setTimeout(() => {  
             document.querySelector('#info-message').textContent=""
          }, 1000);
-        
     }
 })
 

@@ -149,8 +149,8 @@ button:disabled {
 .compose {
     display: flex;
     flex-shrink: 0;
-    margin-top: 16px;
-    padding: 24px;
+    margin-top: 0px;
+    padding: 5px 24px;
 }
 
 .compose form {
@@ -282,5 +282,9 @@ button:disabled {
     #personname
     {
         font-size: 20px;
+    }
+    .sidebar_buttons{
+        width:80%;
+        margin: 10px auto;
     }
 }
