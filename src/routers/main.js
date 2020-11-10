@@ -19,7 +19,7 @@ router.get('/login',(req,res)=>{
 
 router.get('/profile',(req,res)=>{
     res.render('view',{
-        title:'Your Profile',
+        title:'Profile',
     })
 }) 
 

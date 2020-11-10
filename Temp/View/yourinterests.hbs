@@ -6,26 +6,50 @@
     <title>My Profile</title>
     {{>logo}}
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        #profilebuttons{
+            text-align: center;
+        }
+        button{
+            font-size: 17.5px;
+            border-radius: 10px;
+            background:#717D7E;
+            padding: 10px 25px;
+        }
+        #displayData{
+            border-radius: 20px;
+            background:#F2F3F4;
+            padding: 25px 25px;
+            font-size: large;
+        }
+    </style>
 </head>
 
 <body>
+    {{>navbar}}
+    <br>
+    <div id="bodydiv">
     <div class="main-content">
         {{>header}}
-        <p id="message-1"></p>
-        <p id="message-2"></p>
-        <p id="message-3"></p>
-        <p id="message-4"></p>
-        <p id="message-5"></p>
-        <p id="message-6"></p>
-        <p id="message-7"></p>
-        <p id="message-8"></p>
-        <p id="message-9"></p>
-        <p id="message-10"></p>
+        <div id="displayData">
+            <p id="message-1"></p>
+            <p id="message-2"></p>
+            <p id="message-3"></p>
+            <p id="message-4"></p>
+            <p id="message-5"></p>
+            <p id="message-6"></p>
+            <p id="message-7"></p>
+            <p id="message-8"></p>
+            <p id="message-9"></p>
+            <p id="message-10"></p>
+        </div>
         <br>
         <br>
-        <button id="interests" >Update your interests</button>        
+        <div id="profilebuttons">
+        <button id="interests" >Update your interests</button>      
+        </div>  
     </div>
-
+</div>
     <script src="/js/yourinterests.js"></script>
 </body>
 

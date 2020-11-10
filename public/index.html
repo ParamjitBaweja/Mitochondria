@@ -3,6 +3,9 @@
     <head>
         <title>Chats</title>
         <link rel="icon" href="/img/Logo.png">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/chatStyles.css">
         <style>
             #names{
@@ -19,28 +22,44 @@
             #findpeople{
                 display: none;
             }
-            #mymessage{
+            #messageZero{
+                color: black;
+            }
+            #sidebar{
                 display: block;
-                float: right;
-                clear: both;
             }
         </style>
     </head>
     <body>
+        <div class="header" class="container-fliud">
+            <img id="logo" src="/img/logo_cropped.png" alt="Logo">
+            <div class="header-right">  	
+                <span><a href="/profile/people"><img alt="People" src="/img/people.png" height="30"></a></span>
+                <span><a href="/profile"><img alt="Profile" src="/img/profile.png" height="25"></a></span>
+                <span><a href="/people"><img alt="Find People" src="/img/find.png" height="25"></a></span>              
+                <span><a href="/"><img alt="Chats" src="/img/chat.png" height="25"></a></span>
+            </div>
+        </div>
+          <br id="spacer" style="display: block;">
         <div class="chat">
-            <div id="sidebar" class="chat__sidebar">
-                <p id="messageZero"></p>
-                <button id="findpeople" >Find People</button>
+            <div>
+                <div id="sidebar" class="chat__sidebar">
+                    <p id="messageZero"></p>
+                    <button id="findpeople" >Find People</button>
+                </div>
             </div>
             <div class="chat__main">
-                <h2 id="personname"></h2>
+                <div id="chathead">
+                    <button id="collapse" onClick="collapse()"><img src="/img/back.png" height="20" /></button>
+                    <h2 id="personname"></h2>
+                </div>
                 <div id="messages" class="chat__messages"></div>
                 <div>
                     <p id="info-message"></p>
                 </div>
                 <div class="compose">
                     <form id="messageData">
-                        <input name="message" placeholder="message" required onkeydown="startedTyping()" onkeyup="stoppedTyping()" autocomplete="off">
+                        <input name="message" placeholder="Message" required onkeydown="startedTyping()" onkeyup="stoppedTyping()" autocomplete="off">
                         <button>Send</button>
                     </form>
                 </div>
@@ -49,7 +68,9 @@
 
         <script id="message-template" type="text/html">
             <div class="message">
-                <p>{{message}}</p>
+                <div class="bubble" id="notmytextmessage">
+                    <p>{{message}}</p>                    
+                </div>
                 <p>
                     <span class="message__meta">{{createdAt}}</span>
                 </p>
@@ -58,21 +79,25 @@
         <script id="locationMessage-template" type="text/html">
             <div class="message">    
                 <div id="mymessage">
-                    <p>{{message}}</p>
+                    <div id="mytextmessage" class="bubble">
+                        <p>{{message}}</p>                        
+                    </div>
                     <p>
-                        <span class="message__meta">{{createdAt}}</span>
+                        <span class="message__meta" style="margin:5px; float:right; clear:both;">{{createdAt}}</span>
                     </p>
+                    <br>
                 </div>
             </div>
         </script>
         <script id="sidebar-template" type="text/html">
-            <button type="button" onclick="joinchat('{{friendname}}')" id="names">{{friendname}}</button>
+            <button type="button" class="sidebar_buttons" onclick="joinchat('{{friendname}}')" id="names">{{friendname}}</button>
         </script>
         <script id="sidebar-template-new" type="text/html">
-            <button type="button" onclick="joinchat('{{friendname}}')" id="names-new">{{friendname}}</button>
+            <button type="button" class="sidebar_buttons" onclick="joinchat('{{friendname}}')" id="names-new">{{friendname}}</button>
         </script>
         <script id="showMore" type="text/html">
             <button type="button" onclick="showMore()" >Show older chats</button>
+            <br>
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>

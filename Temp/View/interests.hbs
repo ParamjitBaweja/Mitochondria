@@ -10,6 +10,9 @@
 </head>
 
 <body>
+    {{>navbar}}
+    <br>
+    <div id="bodydiv">
     <div class="main-content">
         {{>header}}
         <p>Choose 10 interests to proceed</p>
@@ -18,11 +21,16 @@
         placeholder="Search for interests.." title="Type in an interest">
         <br>
         <br>
+        <a href="https://forms.gle/2EEwEgDdFdzdeDrk6" target="_blank" >Can't find your interests in this list?</a>
+        <br>
+        <br>
         {{>inter}}
     </div>
-
+    </div>
     <script src="/js/interests.js"></script>
 </body>
 
 </html>
 	
+
+    

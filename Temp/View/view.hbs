@@ -3,40 +3,97 @@
 <html>
 
 <head>
-    <title>My Profile</title>
+    <title>Profile</title>
     {{>logo}}
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .main-content{
+            font-weight:normal;
+            font-size: 18px;
+            color: black;
+        }
+        h2{
+            font-weight: normal;
+            font-size: 15px; 
+            color: grey; 
+        }
+        #profilebuttons{
+            text-align: center;
+        }
+        
+        #displayData{
+            border-radius: 20px;
+            background:#F2F3F4;
+            padding: 25px 25px;
+        }
+        .data{
+
+            padding-left: 35px;
+        }
+        @media only screen and (max-width: 500px) {
+            .main-content{
+                font-size: 13px;
+            }
+            h1{
+                font-size: 30px;
+            }
+            h2{
+                font-size: 10px; 
+            }
+            .colouredicon{
+                height: 15px;
+            }
+            .data{
+
+                padding-left: 19px;
+            }
+            button{
+                font-size: 12.5px;
+            }
+        } 
+    </style>
 </head>
 
 <body>
-    <div class="main-content">
-        {{>header}}
-        <p id="message-1"></p>
-        <p id="message-2"></p>
-        <p id="message-3"></p>
-        <p id="message-4"></p>
-        <br><button id="bio" >Update your bio</button>
-        <br>
-        <br>
-        <button id="interests" >Your chosen interests</button>
-        <br>
-        <br>
-        <button id="findpeople" >Find People</button>
-        <br>
-        <br>
-        <button id="chats" >Chats</button>  
-        <br>
-        <br>
-        <button id="logout" >Logout</button> 
-        <br>
-        <br>
-        <button id="people" >People</button>    
-        <!--<br>
-        <br>
-        <button id="logoutAll" >Log out from all devices</button>-->      
+    {{>navbar}}
+    <br>
+    <div id="bodydiv" class="container">
+        <div class="main-content" class="row justify-md-center">
+            {{>header}}
+            <div id="displayData">
+                <img class="colouredicon" src="/img/name.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Name:</h2>
+                <p class="data" id="message-1"></p>
+                <img class="colouredicon" src="/img/email.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Registered e-mail address:</h2>
+                <p class="data" id="message-2"></p>
+                <img class="colouredicon" src="/img/age.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Age:</h2>
+                <p class="data" id="message-3"></p>
+                <img class="colouredicon" src="/img/about.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Bio:</h2>
+                <p class="data" id="message-4"></p>
+            </div>
+                <br>
+            <div id="profilebuttons">
+                <button id="interests" >Your chosen interests</button>
+                <br>
+                <br>
+                <button id="bio" >Update your bio</button>
+                <br>
+                <br>
+                <button id="logout" >Logout</button> 
+                
+            </div>  
+                  
+        </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="/js/view.js"></script>
 </body>
 
 </html>
+
+

@@ -11,15 +11,15 @@ document.getElementById("bio").onclick = function () {
 document.getElementById("interests").onclick = function () {
     location.href = "/interests/you";
 };
-document.getElementById("chats").onclick = function () {
-    location.href = "/";
-};
-document.getElementById("findpeople").onclick = function () {
-    location.href = "/people";
-};
-document.getElementById("people").onclick = function () {
-    location.href = "/profile/people";
-};
+// document.getElementById("chats").onclick = function () {
+//     location.href = "/";
+// };
+// document.getElementById("findpeople").onclick = function () {
+//     location.href = "/people";
+// };
+// document.getElementById("people").onclick = function () {
+//     location.href = "/profile/people";
+// };
 document.getElementById("logout").onclick = function () {
     messageOne.textContent = "Logging you out...."
     fetch('/process/logout').then((response)=>{        

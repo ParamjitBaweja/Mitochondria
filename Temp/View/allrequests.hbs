@@ -11,6 +11,16 @@
             display: none;
             
         }
+        .main-content{
+            font-weight:normal;
+            font-size: 18px;
+            color: black;
+        }
+        h2{
+            font-weight: normal;
+            font-size: 15px; 
+            color: grey; 
+        }
         #request{
             display: none;
         }
@@ -19,7 +29,7 @@
             float:left;
         }
         #next{
-            display: inline-block;
+            display: none;
             float: right;
         }
         #back{
@@ -31,41 +41,110 @@
         .init{
             display: inline-block;
         }
+        #deets{
+            text-align: center;
+        }
+        .databuttons{
+            font-size: 15px;
+            
+        }
+        #names{
+            font-size: 27.5px;
+        }
+        .arrows{
+            background: white;
+            border: 0px;
+        }
+        .details{
+            border-radius: 20px;
+            background:#F2F3F4;
+            padding: 25px 25px;
+            width: 100%;
+        }
+        .metabuttons{
+            cursor: pointer;
+            font-size: 17.5px;
+            border-radius: 10px;
+            background:#f2f2f2;
+            border: 2px solid #27497A;
+            padding: 10px 25px;
+        }
+        @media only screen and (max-width: 500px) {
+            .main-content{
+                font-size: 13px;
+            }
+            h1{
+                font-size: 30px;
+            }
+            h2{
+                font-size: 10px; 
+            }
+            .colouredicon{
+                height: 15px;
+            }
+            .metabuttons{
+                font-size: 12.5px;
+            }
+            #names
+            {
+                font-size: 20px;
+            }
+        } 
     </style>
 </head>
 
 <body>
+    {{>navbar}}
+    <br>
+    <div id="bodydiv">
     <div class="main-content">
-        <div class="init">
+        <div class="init" class="container-fluid ">
             {{>header}}
-            <div id = " deets">
+            <div id="deets" >
                 <br>
-                    <input onclick="sentfunc()" type="button" value="Loading..." id="sent" />
-                <br>
-                <br>
-                    <input onclick="recfunc()" type="button" value="Loading..." id="rec" />
+                    <input onclick="recfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="rec" /> 
                 <br>
                 <br>
-                    <input onclick="friendsfunc()" type="button" value="Loading..." id="friends" />
+                    <input onclick="sentfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="sent" />
+                <br>
+                <br>
+                    <input onclick="friendsfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="friends" />
             </div>
         </div>
-        <div class="profiles">
+        <div class="profiles" class="container">
             <h1>Profile</h1>
-            <h2 id="names"></h2>
-            <p id="message-1"></p>
-            <div id="info">
-                <p id="message-2"></p>
-                <p id="message-3"></p>
-                <p id="message-4"></p>
-                <br>
-                <input onclick="requestfunc()" type="button" value="Loading..." id="request" />
-                <br>
-                <br>
-                <button id="next" >Next</button>
-            </div>  
-            <button id="previous" >Previous</button>
-            <input onclick="backfunc()" type="button" value="Back" id="back" />
+            <h2 id="names" ></h2>
+            <br>
+            <div class="details" class="row justify-md-center">
+                <img class="colouredicon" src="/img/match.png" height="30" style="display: inline-block;">
+                <p class="data" style="display: inline-block;" id="message-1"></p>
+                <div id="info">
+                    <br>
+                    <img class="colouredicon" src="/img/interests.png" height="30" style="display: inline-block;">
+                    <h2 style="display: inline-block;">Interests:</h2>
+                    <br>
+                    <p class="data" id="message-2"></p>
+                    <br>
+                    <img class="colouredicon" src="/img/age.png" height="30" style="display: inline-block;">
+                    <p class="data" style="display: inline-block;" id="message-3"></p>
+                    <br>
+                    <br>
+                    <img class="colouredicon" src="/img/about.png" height="30" style="display: inline-block;">
+                    <h2 style="display: inline-block;">Bio:</h2>
+                    <p class="data" id="message-4"></p>
+                    <br>
+                    <input class="metabuttons" onclick="requestfunc()" type="button" value="Loading..." id="request" />              
+                </div>  
+            </div>
+            <br>
+            <button id="next" class="arrows"><img src="/img/next.png" height="30"/></button>
+            <button id="previous" class="arrows"><img src="/img/previous.png" height="30"/></button>
+            <br>
+            <br>
+            <br>
+            <input onclick="backfunc()" class="metabuttons" type="button" value="Back" id="back" />
         </div>
+    </div>
     </div>
 
     <script src="/js/allrequests.js"></script>

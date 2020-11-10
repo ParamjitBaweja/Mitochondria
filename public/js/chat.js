@@ -179,6 +179,16 @@ function joinchat(name)
         }
         document.querySelector('#messages').innerHTML=""
         document.querySelector('.chat__main').style.display='flex'
+        var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+        if(width<=650)
+        {
+            document.querySelector('#sidebar').style.display="none"
+            document.querySelector('#spacer').style.display="none"
+        }
+        else{
+            document.querySelector('.chat__sidebar').style.width="225px"
+        }
+
         if(index>-1)
         {
             current = names[index]
@@ -192,6 +202,14 @@ function joinchat(name)
                 }
                 messagesRender(index)
             })
+        }
+    }
+    else{
+        var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+        if(width<=650)
+        {
+            document.querySelector('#sidebar').style.display="none"
+            document.querySelector('.chat__main').style.display='flex'
         }
     }
 }
@@ -230,43 +248,48 @@ messageForm.addEventListener('submit',(e)=>{
     const roomind = names.indexOf(current)
     formInput.value=''
     formInput.focus()
-    fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+me+'&time='+timestamp).then((response)=>{
-        response.json().then((data) => {
-            if (data.error) {
-                console.log("error")
-                console.log(data.error)
-            } else {
-                socket.emit("sendMessage",{room:rooms[roomind],username:me,message},(error)=>{        
+    socket.emit("sendMessage",{room:rooms[roomind],username:me,message},(error)=>{        
+                    
+        if(error)
+        {
+            alert(error)
+            formButton.removeAttribute('disabled')
+        }
+        else
+        {
+            fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+me+'&time='+timestamp).then((response)=>{
+                response.json().then((data) => {
                     formButton.removeAttribute('disabled')
-                    if(error)
-                    {
-                        alert(error)
+                    if (data.error) {
+                        console.log("error")
+                        console.log(data.error)
+                    } else {
+                        socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
+                        var tempind = position.indexOf(rooms[roomind])
+                        if(tempind>-1)
+                        {
+                            position.splice(tempind,1)
+                        }
+                        position.unshift(rooms[roomind])
+                        var tempind = unseen.indexOf(rooms[roomind])
+                        if(tempind>-1)
+                        {
+                            unseen.splice(tempind,1)
+                        }
+                        unseen.unshift(rooms[roomind])
+                        sidebarRender()
                     }
                 })
-                socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
-                var tempind = position.indexOf(rooms[roomind])
-                if(tempind>-1)
-                {
-                    position.splice(tempind,1)
-                }
-                position.unshift(rooms[roomind])
-                var tempind = unseen.indexOf(rooms[roomind])
-                if(tempind>-1)
-                {
-                    unseen.splice(tempind,1)
-                }
-                unseen.unshift(rooms[roomind])
-                sidebarRender()
-            }
-        })
-    })  
-      
+            })  
+        }
+    })
+            
 })
 
 
 function autoscroll()
 {
-    if( (messages.scrollHeight-messages.offsetHeight)<=(messages.scrollTop+100))
+    if( (messages.scrollHeight-messages.offsetHeight)<=(messages.scrollTop+messages.offsetHeight))
     {
         messages.scrollTop = messages.scrollHeight
     }
@@ -349,6 +372,12 @@ function startedTyping()
     const tempind = names.indexOf(current)
     mode=1
     socket.emit('typing',{mode, room:rooms[tempind]})
+
+    if(temptimeout!=undefined)
+    {
+        clearTimeout(temptimeout)
+    }
+    temptimeout=setTimeout(stoppedTyping, 2000);
 }
 
 function stoppedTyping()
@@ -408,6 +437,22 @@ function oldChatsRender()
     }
 }
 
+
+function collapse()
+{
+    document.querySelector('.chat__main').style.display="none"
+    document.querySelector('.chat__sidebar').style.display="block"
+    document.querySelector('#spacer').style.display="block"
+}
+window.onpopstate = function() {
+    var width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    if(width<=650)
+    {
+        collapse()
+    }
+ }; history.pushState({}, '');
 
 function updateMetaFunction(index)
 {
