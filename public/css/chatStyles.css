@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Helvetica, Arial,  sans-serif;
 }
 
 html {
@@ -64,6 +65,7 @@ button:disabled {
     background:#EAECEE;
     border-radius: 10px;
     margin-bottom: 7px;
+    font-family: Helvetica, Arial,  sans-serif;
 }
 .sidebar_buttons:hover{
     background: white;
@@ -93,14 +95,13 @@ button:disabled {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    max-height: 85vh;
-    
+    max-height: 85vh;    
     border-radius: 20px;
 }
 
 .chat__messages {
     flex-grow: 1;
-    padding: 24px 24px 0 24px;
+    padding: 16px 16px 0 16px;
     overflow-y: scroll;
 }
 
@@ -110,7 +111,6 @@ button:disabled {
     margin-bottom: 20px; 
     display: block;
     clear: both;
-    
 }
 
 .bubble
@@ -120,12 +120,16 @@ button:disabled {
     border-radius: 15px;
     padding: 0px 10px;
     padding-top: 5px;
+    padding-bottom: 0px;
 }
 
 #notmytextmessage
 {
     background:#D6EAF8;
     max-width: 70%;
+    font-family: Helvetica, Arial,  sans-serif;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 #mymessage{
@@ -133,6 +137,9 @@ button:disabled {
     float: right;
     clear: both;
     max-width: 70%;
+    font-family: Helvetica, Arial,  sans-serif;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .message__meta {
@@ -150,7 +157,8 @@ button:disabled {
     display: flex;
     flex-shrink: 0;
     margin-top: 0px;
-    padding: 5px 24px;
+    margin-bottom: 2px;
+    padding: 5px 10px;
 }
 
 .compose form {

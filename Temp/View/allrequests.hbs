@@ -39,14 +39,24 @@
             display: none;
         }
         .init{
+            width: 100%;
             display: inline-block;
         }
         #deets{
+            width:100%;
             text-align: center;
+            padding-bottom: 25px;
+             background:#EAEDED;
+             border-radius: 20px;
         }
         .databuttons{
             font-size: 15px;
-            
+            background:white;
+            border: 3px solid #2980B9;
+            border-radius: 20px;
+            font-size: 18px;
+            width: 80%;
+            margin: 15px auto;
         }
         #names{
             font-size: 27.5px;
@@ -98,17 +108,17 @@
     <br>
     <div id="bodydiv">
     <div class="main-content">
-        <div class="init" class="container-fluid ">
+        <div class="init" >
             {{>header}}
             <div id="deets" >
                 <br>
-                    <input onclick="recfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="rec" /> 
+                    <input onclick="recfunc()" type="button" value="Loading..." class="databuttons" id="rec"/> 
                 <br>
                 <br>
-                    <input onclick="sentfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="sent" />
+                    <input onclick="sentfunc()" type="button" value="Loading..." class="databuttons" id="sent" />
                 <br>
                 <br>
-                    <input onclick="friendsfunc()" class="btn btn-outline-dark btn-lg btn-block" type="button" value="Loading..." class="databuttons" id="friends" />
+                    <input onclick="friendsfunc()" type="button" value="Loading..." class="databuttons" id="friends" />
             </div>
         </div>
         <div class="profiles" class="container">
