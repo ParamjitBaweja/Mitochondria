@@ -1,7 +1,7 @@
 .header {
     overflow: hidden;
     border-bottom: 1px solid gray;
-    border-bottom: 5px solid #2980B9;
+    border-bottom: 5px solid #646566;
     background-color: #ffffff;  
     border-radius: 10px;
 }
@@ -40,8 +40,14 @@
 
 body{
     background: #f2f2f2;
+
+    background-image: url('../img/texture_blurred_1.jpeg');
+    background-repeat: repeat;
+    background-size: cover;
     padding:0px;
+    
 }
+
 
 #bodydiv {
     color: #333333;
@@ -63,7 +69,7 @@ body{
     border-radius: 10px;
     word-break: break-word;
     border-top: 1px solid gray;
-    border: 5px solid #2980B9;
+    /* border: 5px solid #2980B9; */
 }
 
 footer {
