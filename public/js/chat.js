@@ -30,7 +30,8 @@ var oldchats = new Array()
 messageZero.textContent = "Loading..."
 
 document.getElementById("findpeople").onclick = function () {
-    location.href = "/people";
+    console.log("clicked")
+    window.location.pathname = "/people";
 };
 
 
@@ -39,7 +40,7 @@ fetch('/requests/all').then((response)=>{
     response.json().then((data) => {
         if(data.error)
         {
-            window.location.pathname = '/login'
+            return window.location.pathname = '/login'
         }
         friends = data.friends
         names = data.names
@@ -50,33 +51,42 @@ fetch('/requests/all').then((response)=>{
         newmsgs  = data.newmsgs
         if(rooms===undefined)
         {
-            location.href='/profile'
+            window.location.pathname = '/profile'
         }
-        socket.emit('join',{username:me,room:me}, (error)=>{
-            if(error)
-            {
-                alert(error)
-                location.href='/'
-            }
-        }) 
-        
-        if(rooms.length>0)
+        console.log(friends.length)
+        if(friends.length==0)
         {
-            var x= rooms.toString()
-            fetch('/chats/all?ids='+x).then((response)=>{
-                response.json().then((data) => {
-                    if (data.error) {
-                        messageOne.textContent = data.error
-                        window.location.pathname = '/login'
-                    } else {
-                        allmsgs= data
-                        sidebarRender()
-                    }
-                })
-            })
+            messageZero.textContent = "You have no chats. Please find people to proceed."
+            document.getElementById("findpeople").style.display='block'        
         }
         else{
-            sidebarRender()
+
+            socket.emit('join',{username:me,room:me}, (error)=>{
+                if(error)
+                {
+                    alert(error)
+                    location.href='/'
+                }
+            }) 
+            
+            if(rooms.length>0)
+            {
+                var x= rooms.toString()
+                fetch('/chats/all?ids='+x).then((response)=>{
+                    response.json().then((data) => {
+                        if (data.error) {
+                            messageOne.textContent = data.error
+                            window.location.pathname = '/login'
+                        } else {
+                            allmsgs= data
+                            sidebarRender()
+                        }
+                    })
+                })
+            }
+            else{
+                sidebarRender()
+            }
         }
     })
 })
@@ -86,8 +96,8 @@ function sidebarRender()
     document.querySelector('#sidebar').innerHTML = '<p id="messageZero"></p><button id="findpeople" >Find People</button>'
     if(friends.length==0)
     {
-        document.getElementById("findpeople").style.display='block'
         messageZero.textContent = "You have no chats. Please find people to proceed."
+        document.getElementById("findpeople").style.display='block'        
     }
     else{
     messageZero.textContent = ""

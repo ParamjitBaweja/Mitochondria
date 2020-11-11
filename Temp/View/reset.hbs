@@ -10,19 +10,29 @@
 
 <body>
     <div class="main-content">
-        {{>header}}
-        <h2>Enter your new password</h2>
-        <form>
-            <input id="password" type="password" placeholder="Password">
+        <div class="text-center">
+            <img id="logo" src="/img/logo_cropped.png" alt="Logo">
+        </div>
+        <div class="datacard" >
+            <div class="text-center">
+                {{>header}}
+            </div>      
+            <form class="text-center">
+                <h2>Enter your new password</h2>
+                <br>
+                <input id="password" type="password" placeholder="Password">
+                <br>
+                <br>
+                <input id="re-password" type="password" placeholder="Confirm Password">
+                <br>
+                <br>
+                <button id="reset">Reset</button>
+            </form>
             <br>
-            <br>
-            <input id="re-password" type="password" placeholder="Confirm Password">
-            <br>
-            <br>
-            <button id="reset">Reset</button>
-        </form>
-        <br>
-        <p id="message-1"></p>
+            <div class="text-center"></div>
+                <p id="message-1"></p>
+            </div>
+        </div>  
     </div>
     <script src="/js/reset.js"></script>
 </body>

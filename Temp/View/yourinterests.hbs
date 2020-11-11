@@ -10,17 +10,30 @@
         #profilebuttons{
             text-align: center;
         }
-        button{
-            font-size: 17.5px;
-            border-radius: 10px;
-            background:#717D7E;
-            padding: 10px 25px;
-        }
         #displayData{
             border-radius: 20px;
             background:#F2F3F4;
             padding: 25px 25px;
-            font-size: large;
+            font-size: 17.5px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        .metainfo{
+            font-size: 15px;
+            padding: 2px 15px;
+        }
+        .infocard{
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+        }
+        @media only screen and (max-width: 500px) {
+            .metainfo{
+                font-size: 12.5px;
+                padding: 1px 5px;
+            }
+            #displayData{
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -32,16 +45,20 @@
     <div class="main-content">
         {{>header}}
         <div id="displayData">
-            <p id="message-1"></p>
-            <p id="message-2"></p>
-            <p id="message-3"></p>
-            <p id="message-4"></p>
-            <p id="message-5"></p>
-            <p id="message-6"></p>
-            <p id="message-7"></p>
-            <p id="message-8"></p>
-            <p id="message-9"></p>
-            <p id="message-10"></p>
+            <p class="metainfo">Along with your bio, the interests you choose are the only personal information shown to other users.</p>
+            <p class="metainfo">It is also used to sort the profiles shown to you so that you see the profiles relevant to you first.</p>
+            <div class="infocard">
+                <p id="message-1"></p>
+                <p id="message-2"></p>
+                <p id="message-3"></p>
+                <p id="message-4"></p>
+                <p id="message-5"></p>
+                <p id="message-6"></p>
+                <p id="message-7"></p>
+                <p id="message-8"></p>
+                <p id="message-9"></p>
+                <p id="message-10"></p>
+            </div>
         </div>
         <br>
         <br>

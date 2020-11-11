@@ -71,7 +71,7 @@ router.get('/reset/:id',(req,res)=>{
 })
 router.get('/verify/:id', async(req,res)=>{
     try {
-        const response = await axios.get(`https://mitochondria-api.herokuapp.com/verify/${req.params.id}`)
+        const response = await axios.get(`${process.env.API_URL}/api/verify/${req.params.id}`)
         res.cookie('JWT', `${response.data.token}`, { maxAge: 24*3600000*15, httpOnly: true });
         res.render('welcome',{
             title:'Welcome',

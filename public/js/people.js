@@ -84,8 +84,8 @@ fetch('/process/seen').then((response)=>{
         {
             console.log(data.error)
         }
-        //seen=data.ids
-        seen=[]
+        seen=data.ids
+        //seen=[]
         if(seen===undefined)
         {
             seen=[]
@@ -100,9 +100,9 @@ fetch('/requests/all').then((response)=>{
         blocked = data.blocked
         rec = data.rec
         friends = data.friends
-        // friends=[]
+        //friends=[]
         sent = data.sent
-        // sent=[]
+        //sent=[]
 
 fetch('/process/interests/you').then((response)=>{
     response.json().then((data) => {
@@ -448,7 +448,11 @@ function load()
 
 function noprofiles()
 {
-    messageOne.textContent= "There are no profiles for you to see"
+    messageOne.textContent= "You seem to have reached the end"
+    document.getElementById('previous').style.display='none'
+    document.getElementById('next').style.display='none'
+    document.getElementById('more').style.display='inline-block'
+    document.getElementById('info').style.display='none'
 }
 
 // next

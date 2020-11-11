@@ -10,26 +10,34 @@
 
 <body>
     <div class="main-content">
-        {{>header}}
-
-        <form>
-            <input id="email" placeholder="Username">
-            <br>
-            <br>
-            <input id="password" type="password" placeholder="Password">
-            <br>
-            <br>
-            <button id="login">Login</button>
-        </form>
-        <br>
-        <a href="/signup">Don't have an account?Sign up now</a>
-        <br>
-        <br>
-        <a href="/forgot">Forgot password?</a>
-        <br>
-        <br>
-        <p id="message-1"></p>
-        <p id="message-2"></p>
+        <div class="text-center">
+            <img id="logo" src="/img/logo_cropped.png" alt="Logo">
+        </div>
+        <div class="datacard" >
+            <div class="text-center">
+                {{>header}}
+            </div>
+            <form class="text-center">
+                <input id="email" placeholder="Username">
+                <br>
+                <br>
+                <input id="password" type="password" placeholder="Password">
+                <br>
+                <br>
+                <button id="login">Login</button>
+            </form>   
+            <div class="text-center">    
+                <br>
+                <a href="/signup">Don't have an account?Sign up now</a>
+                <br>
+                <br>
+                <a href="/forgot">Forgot password?</a>
+                <br>
+                <br>
+                <p id="message-1"></p>
+                <p id="message-2"></p>
+            </div> 
+        </div>
     </div>
     <script src="/js/login.js"></script>
 </body>

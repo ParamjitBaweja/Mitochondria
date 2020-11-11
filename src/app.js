@@ -8,6 +8,7 @@ const main = require('./routers/main')
 const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
+const profanity = require('profanity-hindi')
 const {generateMessage,generateLocationMessage}=require('./utils/messages')
 require('./api/db/mongoose')
 
@@ -60,7 +61,10 @@ io.on('connection',(socket)=>{
     })
     socket.on('sendMessage',({room,username,message},callback)=>{       
         const filter= new Filter()
-
+        if(profanity.isMessageDirty(message))
+        {
+            return callback('Please refrain from profanity')
+        }
         if(filter.isProfane(message)){
             return callback('Please refrain from profanity')
         }

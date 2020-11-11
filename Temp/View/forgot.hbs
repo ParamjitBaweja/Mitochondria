@@ -10,17 +10,27 @@
 
 <body>
     <div class="main-content">
-        {{>header}}
-        <p>Enter your registered email adress to proceed</p>
-        <form>
-            <input id="email" placeholder="email">
+        <div class="text-center">
+            <img id="logo" src="/img/logo_cropped.png" alt="Logo">
+        </div>
+        <div class="datacard" >
+            <div class="text-center">
+                {{>header}}
+            </div>      
+            <form class="text-center">
+            <p>Enter your registered email adress to proceed</p>
+            <form>
+                <input id="email" placeholder="Email">
+                <br>
+                <br>
+                <button id="submit">Submit</button>
+            </form>
             <br>
-            <br>
-            <button id="submit">Submit</button>
-        </form>
-        <br>
-        <p id="message-1"></p>
-        <p id="message-2"></p>
+            <div class="text-center"></div>
+                <p id="message-1"></p>
+                <p id="message-2"></p>
+            </div>
+        </div>
     </div>
     <script src="/js/forgot.js"></script>
 </body>
