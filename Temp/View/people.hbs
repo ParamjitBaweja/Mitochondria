@@ -11,6 +11,17 @@
             display: none;
             
         }
+        .main-content{
+            font-weight:normal;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-size: 18px;
+            color: black;
+        }
+        h2{
+            font-weight: normal;
+            font-size: 15px; 
+            color: grey; 
+        }
         #request{
             display: inline-block;
         }
@@ -25,9 +36,53 @@
             float:left;
         }
         #next{
-            display: inline-block;
+            display: none;
             float: right;
         }
+        .details{
+            border-radius: 20px;
+            background:#F2F3F4;
+            padding: 25px 25px;
+            width: 100%;
+        }
+        .arrows{
+            background: white;
+            border: none;
+            outline: none;
+        }
+        .arrows:focus{
+            Outline: 0 !important;
+        }
+        .metabuttons{
+            cursor: pointer;
+            font-size: 17.5px;
+            border-radius: 10px;
+            background:#f2f2f2;
+            border: 2px solid #27497A;
+            padding: 10px 25px;
+            
+        }
+        @media only screen and (max-width: 500px) {
+            .main-content{
+                font-size: 13px;
+            }
+            h1{
+                font-size: 30px;
+            }
+            h2{
+                font-size: 10px; 
+            }
+            .colouredicon{
+                height: 15px;
+            }
+            .metabuttons{
+                font-size: 12.5px;
+            }
+            #names
+            {
+                font-size: 20px;
+            }
+        } 
     </style>
 </head>
 
@@ -35,28 +90,47 @@
     {{>navbar}}
     <br>
     <div id="bodydiv">
-    <div class="main-content">
+    <div class="main-content" class="container">
         {{>header}}
-        <p id="message-1"></p>
-        <div id="info">
-            <p id="message-2"></p>
-            <p id="message-3"></p>
-            <p id="message-4"></p>
-            <br>
-            <button id="request" >Send a chat request</button>
-            <br>
-            <br>
-            <button id="next" >Next</button>
-        </div>  
-        <button id="previous" >Previous</button>   
-        <button id="more" >Load more</button>
+        <div class="details" class="row justify-md-center">
+            <img class="colouredicon" src="/img/match.png" height="30" style="display: inline-block;">
+            <p class="data" style="display: inline-block;" id="message-1"></p>
+            <div id="info">
+                <br>
+                <img class="colouredicon" src="/img/interests.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Interests:</h2>
+                <br>
+                <p class="data" id="message-2"></p>
+                <br>
+                <img class="colouredicon" src="/img/age.png" height="30" style="display: inline-block;">
+                <p class="data" style="display: inline-block;" id="message-3"></p>
+                <br>
+                <br>
+                <img class="colouredicon" src="/img/about.png" height="30" style="display: inline-block;">
+                <h2 style="display: inline-block;">Bio:</h2>
+                <p class="data" id="message-4"></p>
+                <br>
+                <div class="text-center">
+                    <button class="metabuttons" id="request" >Send a chat request</button>
+                </div>
+                              
+            </div>  
+        </div>
+        <br>
+        <button id="next" class="arrows"><img src="/img/next.png" height="30"/></button>
+        <button id="previous" class="arrows"><img src="/img/previous.png" height="30"/></button>
         <br>
         <br>
         <br>
-        <button id="home" >Go back</button>
+        <div class="text-center">
+            <button class="metabuttons" id="more" >Load more</button>
+            <br>
+            <br>
+            <button class="metabuttons" id="home" >Back</button>
+        </div>
+        <br>
+        <br>
     </div>
-    </div>
-
     <script src="/js/people.js"></script>
 </body>
 

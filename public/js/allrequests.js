@@ -159,7 +159,7 @@ function data()
                                         messageZero.textContent=names[index]
                                     }
                                     messageOne.textContent= count+'/10 of your interests match'
-                                    messageTwo.textContent= interests[tindex]
+                                    messageTwo.textContent= interests[tindex].join(', ')
                                     for(i=0;i<profileOwner.length;i++)
                                     {
                                         if(profileOwner[i]===owners[index])
@@ -225,13 +225,15 @@ function next()
                 }
             }  
         }
-    }            
+    }   
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; //for chrome etc         
     if(mode==3)
     {
         messageZero.textContent=names[index]
     }
     messageOne.textContent= count+'/10 of your interests match'
-    messageTwo.textContent= interests[tindex]
+    messageTwo.textContent= interests[tindex].join(', ')
     for(i=0;i<profileOwner.length;i++)
     {
         if(profileOwner[i]===owners[index])
@@ -286,13 +288,15 @@ function previous()
                 }
             }  
         }
-    }            
+    }      
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; //for chrome etc      
     if(mode==3)
     {
         messageZero.textContent=names[index]
     }
     messageOne.textContent= count+'/10 of your interests match'
-    messageTwo.textContent= interests[tindex]
+    messageTwo.textContent= interests[tindex].join(', ')
     for(i=0;i<profileOwner.length;i++)
     {
         if(profileOwner[i]===owners[index])

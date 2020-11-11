@@ -13,6 +13,7 @@
         }
         .main-content{
             font-weight:normal;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             font-size: 18px;
             color: black;
         }
@@ -37,6 +38,7 @@
         }
         .profiles{
             display: none;
+            width:100%;
         }
         .init{
             width: 100%;
@@ -109,7 +111,7 @@
     {{>navbar}}
     <br>
     <div id="bodydiv">
-    <div class="main-content">
+    <div class="main-content" class="container">
         <div class="init" >
             {{>header}}
             <div id="deets" >
@@ -123,7 +125,7 @@
                     <input onclick="friendsfunc()" type="button" value="Loading..." class="databuttons" id="friends" />
             </div>
         </div>
-        <div class="profiles" class="container">
+        <div class="profiles">
             <h1>Profile</h1>
             <h2 id="names" ></h2>
             <br>
@@ -145,7 +147,9 @@
                     <h2 style="display: inline-block;">Bio:</h2>
                     <p class="data" id="message-4"></p>
                     <br>
-                    <input class="metabuttons" onclick="requestfunc()" type="button" value="Loading..." id="request" />              
+                    <div class="text-center">
+                        <input class="metabuttons" onclick="requestfunc()" type="button" value="Loading..." id="request" />              
+                    </div>
                 </div>  
             </div>
             <br>
@@ -154,7 +158,11 @@
             <br>
             <br>
             <br>
-            <input onclick="backfunc()" class="metabuttons" type="button" value="Back" id="back" />
+            <div class="text-center">
+                <input onclick="backfunc()" class="metabuttons" type="button" value="Back" id="back" />
+            </div>
+            <br>
+            <br>
         </div>
     </div>
     </div>

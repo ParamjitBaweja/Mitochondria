@@ -18,6 +18,8 @@ var min=0
 var blocked = new Array()
 var rec = new Array()
 var seen = new Array()
+var friends = new Array()
+var sent = new Array()
 
 document.getElementById("next").onclick = function () {
     next();
@@ -82,6 +84,7 @@ fetch('/process/seen').then((response)=>{
         {
         }
         seen=data.ids
+        //seen=[]
         if(seen===undefined)
         {
             seen=[]
@@ -94,6 +97,10 @@ fetch('/requests/all').then((response)=>{
         }
         blocked = data.blocked
         rec = data.rec
+        friends = data.friends
+        // friends=[]
+        sent = data.sent
+        // sent=[]
 
 fetch('/process/interests/you').then((response)=>{
     response.json().then((data) => {
@@ -112,7 +119,6 @@ fetch('/process/interests/you').then((response)=>{
                     }
                     interests = data.interests
                     owners = data.owners
-
                     //remove blocked profiles
                     if(blocked.length>0)
                     {
@@ -139,6 +145,32 @@ fetch('/process/interests/you').then((response)=>{
                             }
                         }
                     }
+                    //remove profiles you have sent a request to
+                    if(sent.length>0)
+                    {
+                        for(i=0; i<sent.length; i++)
+                        {
+                            const tempindexfilter = owners.indexOf(sent[i])
+                            if(tempindexfilter>-1)
+                            {
+                                owners.splice(tempindexfilter,1)
+                                interests.splice(tempindexfilter,1)
+                            }
+                        }
+                    }
+                    //remove profiles you are friends with
+                    if(friends.length>0)
+                    {
+                        for(i=0; i<friends.length; i++)
+                        {
+                            const tempindexfilter = owners.indexOf(friends[i])
+                            if(tempindexfilter>-1)
+                            {
+                                owners.splice(tempindexfilter,1)
+                                interests.splice(tempindexfilter,1)
+                            }
+                        }
+                    }
                     //remove seen profiles
                     if(seen.length>0)
                     {
@@ -158,13 +190,14 @@ fetch('/process/interests/you').then((response)=>{
                         if(owners[i]===filter)
                         {
                             for(j=i;j<owners.length;j++){
-                                owners[i]=owners[i+1]
-                                interests[i]= interests[i+1]
+                                owners[j]=owners[j+1]
+                                interests[j]= interests[j+1]
                             }
                             owners.pop()
                             interests.pop()
                         }
                     }
+                    console.log(owners)
                     //check if there are any profiles left after filtering
                     if(owners.length==0)
                     {
@@ -226,7 +259,7 @@ fetch('/process/interests/you').then((response)=>{
                                 profileOwner = data.owner
                                 document.getElementById('info').style.display='block' 
                                 messageOne.textContent= match[index]+'/10 of your interests match'
-                                messageTwo.textContent= interests[index]
+                                messageTwo.textContent= interests[index].join(', ')
                                 for(i=0;i<profileOwner.length;i++)
                                 {
                                     if(profileOwner[i]===owners[index])
@@ -285,8 +318,10 @@ function next()
         document.getElementById('next').style.display='inline-block'
         document.getElementById('more').style.display='none'
     }
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; //for chrome etc
     messageOne.textContent= match[index]+'/10 of your interests match'
-    messageTwo.textContent= interests[index]
+    messageTwo.textContent= interests[index].join(', ')
     for(i=0;i<profileOwner.length;i++)
     {
         if(profileOwner[i]===owners[index])
@@ -320,8 +355,11 @@ function previous()
     // if(index==min){
     //     document.getElementById('previous').style.display='none' 
     // }
+
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; //for chrome etc
     messageOne.textContent= match[index]+'/10 of your interests match'
-    messageTwo.textContent= interests[index]
+    messageTwo.textContent= interests[index].join(', ')
     for(i=0;i<profileOwner.length;i++)
     {
         if(profileOwner[i]===owners[index])
@@ -377,7 +415,7 @@ function load()
                 document.getElementById('info').style.display='block' 
                 index++
                 messageOne.textContent= match[index]+'/10 of your interests match'
-                messageTwo.textContent= interests[index]
+                messageTwo.textContent= interests[index].join(', ')
                 for(i=0;i<profileOwner.length;i++)
                 {
                     if(profileOwner[i]===owners[index])
