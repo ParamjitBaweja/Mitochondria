@@ -2,13 +2,21 @@ const express = require('express')
 const path = require('path')
 const hbs = require('hbs')
 var cookieParser = require('cookie-parser')
+//var bodyParser = require('body-parser')
 const processes = require('./routers/processes')
 const main = require('./routers/main')
 const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generateMessage,generateLocationMessage}=require('./utils/messages')
-const {addUser, removeUser, getUser, getUsersInRoom} = require('./utils/users')
+require('./api/db/mongoose')
+
+
+const userRouter = require('./api/routers/users')
+const taskRouter = require('./api/routers/tasks')
+const peopleRouter = require('./api/routers/people')
+const chatRouter = require('./api/routers/chats')
+
 
 
 ///paths
@@ -29,6 +37,12 @@ hbs.registerPartials(partialpath)
 app.use(express.static(publicpath))
 app.use(cookieParser())
 
+app.use(express.json())
+
+app.use (taskRouter)
+app.use (userRouter)
+app.use (peopleRouter)
+app.use (chatRouter)
 app.use(processes)
 app.use(main)
 

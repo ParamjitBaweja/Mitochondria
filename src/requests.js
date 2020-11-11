@@ -8,7 +8,7 @@ const login = async function(email, password, callback)
   };
   try{
     const response= await axios.post( 
-    'https://mitochondria-api.herokuapp.com/users/login',
+    `${process.env.API_URL}/api/users/login`,
     bodyParameters
     )
     callback('',{
@@ -31,7 +31,7 @@ const signup = async function(email, password,name,age, callback)
   };
   try{
     const response= await axios.post( 
-    'https://mitochondria-api.herokuapp.com/users',
+    `${process.env.API_URL}/api/users`,
     bodyParameters
     )
     callback('',{})
@@ -49,7 +49,7 @@ const view = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get('https://mitochondria-api.herokuapp.com/users/me',
+    const response = await axios.get(`${process.env.API_URL}/api/users/me`,
     config
     )
     callback('',{
@@ -72,7 +72,7 @@ const viewinterests = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get('https://mitochondria-api.herokuapp.com/interests/me',
+    const response = await axios.get(`${process.env.API_URL}/api/interests/me`,
     config
     )
     //console.log(response)
@@ -97,7 +97,7 @@ const details = async function(token,interests,callback)
     const bodyParameters = {
       interests
     };
-    const response = await axios.post('https://mitochondria-api.herokuapp.com/interests',
+    const response = await axios.post(`${process.env.API_URL}/api/interests`,
     bodyParameters,
     config
     )
@@ -118,7 +118,7 @@ const updatebio = async function(token,bio,callback)
     const bodyParameters = {
       bio
     };
-    const response = await axios.patch('https://mitochondria-api.herokuapp.com/users/me',
+    const response = await axios.patch(`${process.env.API_URL}/api/users/me`,
     bodyParameters,
     config
     )
@@ -141,7 +141,7 @@ const updateinterests = async function(token,interests,callback)
     const bodyParameters = {
       interests
     };
-    const response = await axios.patch('https://mitochondria-api.herokuapp.com/interests',
+    const response = await axios.patch(`${process.env.API_URL}/api/interests`,
     bodyParameters,
     config
     )
@@ -161,7 +161,7 @@ const logout = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.delete('https://mitochondria-api.herokuapp.com/users/logout',
+    const response = await axios.delete(`${process.env.API_URL}/api/users/logout`,
     config
     )
     callback('')
@@ -178,7 +178,7 @@ const logoutAll = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = axios.delete('https://mitochondria-api.herokuapp.com/users/logoutAll',
+    const response = axios.delete(`${process.env.API_URL}/api/logoutAll`,
     config
     )
     callback('')
@@ -195,7 +195,7 @@ const allInterests = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get('https://mitochondria-api.herokuapp.com/interests',
+    const response = await axios.get(`${process.env.API_URL}/api/interests`,
     config
     )
     //console.log(response)
@@ -222,7 +222,7 @@ const profiles = async function(token,ids,callback)
     const bodyParameters = {
       ids
     };
-    const response = await axios.patch('https://mitochondria-api.herokuapp.com/profiles',
+    const response = await axios.patch(`${process.env.API_URL}/api/profiles`,
     bodyParameters,
     config
     )
@@ -252,7 +252,7 @@ const sendRequest =  async function(token,id,callback)
     const bodyParameters = {
       id
     };
-    const response = await axios.post('https://mitochondria-api.herokuapp.com/requests/send',
+    const response = await axios.post(`${process.env.API_URL}/api/requests/send`,
     bodyParameters,
     config
     )
@@ -274,7 +274,7 @@ const acceptRequest =  async function(token,id,callback)
     const bodyParameters = {
       id
     };
-    const response = await axios.post('https://mitochondria-api.herokuapp.com/requests/accept',
+    const response = await axios.post(`${process.env.API_URL}/api/requests/accept`,
     bodyParameters,
     config
     )
@@ -293,7 +293,7 @@ const allRequests = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get('https://mitochondria-api.herokuapp.com/requests',
+    const response = await axios.get(`${process.env.API_URL}/api/requests`,
     config
     )
     console.log(response.data)
@@ -323,7 +323,7 @@ const forgot = async function(email, callback)
   };
   try{
     const response= await axios.post( 
-    'https://mitochondria-api.herokuapp.com/forgot/password',
+    `${process.env.API_URL}/api/forgot/password`,
     bodyParameters
     )
     callback('',response)
@@ -340,7 +340,7 @@ const reset = async function(password, id, callback)
     const bodyParameters = {
       password
     };
-    const response = await axios.patch(`https://mitochondria-api.herokuapp.com/reset/${id}`,
+    const response = await axios.patch(`${process.env.API_URL}/api/reset/${id}`,
     bodyParameters
     )
     console.log(response)
@@ -358,7 +358,7 @@ const seenProfiles = async function(token,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get('https://mitochondria-api.herokuapp.com/seen',
+    const response = await axios.get(`${process.env.API_URL}/api/seen`,
     config
     )
     callback('',{
@@ -382,7 +382,7 @@ const sendMessage =  async function(token,id,message, sender, time,callback)
       sender,
       time
     };
-    const response = await axios.post('https://mitochondria-api.herokuapp.com/send/message',
+    const response = await axios.post(`${process.env.API_URL}/api/send/message`,
     bodyParameters,
     config
     )
@@ -405,7 +405,7 @@ const allChats = async function(token,ids,callback)
     const bodyParameters = {
       ids
     };
-    const response = await axios.patch('https://mitochondria-api.herokuapp.com/messages/all',
+    const response = await axios.patch(`${process.env.API_URL}/api/messages/all`,
     bodyParameters,
     config
     )
@@ -424,7 +424,7 @@ const oldChats = async function(token, id ,callback)
     const config = {
       headers: { Authorization: `Bearer ${token}` }
     }
-    const response = await axios.get(`https://mitochondria-api.herokuapp.com/messages/${id}`,
+    const response = await axios.get(`${process.env.API_URL}/api/messages/${id}`,
     config
     )
     callback('',response.data)
@@ -445,7 +445,7 @@ const updateMeta =  async function(token,room,friend,callback)
       room,
       friend
     };
-    const response = await axios.post('https://mitochondria-api.herokuapp.com/update/meta',
+    const response = await axios.post(`${process.env.API_URL}/api/update/meta`,
     bodyParameters,
     config
     )

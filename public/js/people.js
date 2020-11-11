@@ -82,9 +82,10 @@ fetch('/process/seen').then((response)=>{
     response.json().then((data) => {
         if(data.error)
         {
+            console.log(data.error)
         }
-        seen=data.ids
-        //seen=[]
+        //seen=data.ids
+        seen=[]
         if(seen===undefined)
         {
             seen=[]
@@ -94,6 +95,7 @@ fetch('/requests/all').then((response)=>{
     response.json().then((data) => {
         if(data.error)
         {
+            console.log(data.error)
         }
         blocked = data.blocked
         rec = data.rec
@@ -119,6 +121,7 @@ fetch('/process/interests/you').then((response)=>{
                     }
                     interests = data.interests
                     owners = data.owners
+                    console.log(owners)
                     //remove blocked profiles
                     if(blocked.length>0)
                     {
