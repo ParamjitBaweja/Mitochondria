@@ -105,7 +105,6 @@ router.get('/api/interests/me',auth, async (req,res)=>{
 })
 
 //Update interests
-
 router.patch('/api/interests/',auth,async (req,res)=>{
 
     const updates = Object.keys(req.body)
