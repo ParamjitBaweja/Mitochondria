@@ -60,11 +60,12 @@ button:disabled {
 
 
 .sidebar_buttons{
-    width: 100%;
+    width: 90%;
     color: black;
     background:#EAECEE;
     border-radius: 10px;
-    margin-bottom: 7px;
+    /* margin-bottom: 7px; */
+    margin: 7px auto;
     font-family: Helvetica, Arial,  sans-serif;
 }
 .sidebar_buttons:hover{
@@ -92,6 +93,14 @@ button:disabled {
 /* Chat styles */
 
 .chat__main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;    
+    border-radius: 20px;
+}
+
+.chat__main2{
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -261,15 +270,29 @@ button:disabled {
         width: 100px;
         padding-top: 2px;
     }
+    .chat__main2{
+        display: none;
+    }
 } 
 @media only screen and (max-width: 343px) {
     #logo{
         width: 70px;
         padding-top: 7.5px;
     }
+    .chat__main2{
+        display: none;
+    }
 } 
+#chatinfometa
+{
+    display: none;
+}
 @media only screen and (max-width: 650px)
 {
+    #chatinfometa
+    {
+        display: block;
+    }
     #collapse{
         display: inline-block;
         height: 35px;
@@ -285,6 +308,9 @@ button:disabled {
         width: 100vw;
     }
     .chat__main{
+        display: none;
+    }
+    .chat__main2{
         display: none;
     }
     #personname

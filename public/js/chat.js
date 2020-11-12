@@ -186,12 +186,14 @@ function joinchat(name)
             socket.emit('exit',{username:me,room:rooms[tempind]})
         }
         document.querySelector('#messages').innerHTML=""
+        document.querySelector('.chat__main2').style.display='none'
         document.querySelector('.chat__main').style.display='flex'
         var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
         if(width<=650)
         {
             document.querySelector('#sidebar').style.display="none"
             document.querySelector('#spacer').style.display="none"
+            document.querySelector('#chatinfometa').style.display="none"
         }
         else{
             document.querySelector('.chat__sidebar').style.width="225px"
@@ -453,6 +455,7 @@ function collapse()
 {
     document.querySelector('.chat__main').style.display="none"
     document.querySelector('.chat__sidebar').style.display="block"
+    document.querySelector('#chatinfometa').style.display="block"
     document.querySelector('#spacer').style.display="block"
 }
 window.onpopstate = function() {

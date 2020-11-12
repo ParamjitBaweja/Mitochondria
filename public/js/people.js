@@ -290,20 +290,18 @@ fetch('/process/interests/you').then((response)=>{
                                 else{
                                     document.getElementById('next').style.display='inline-block'
                                     document.getElementById('more').style.display='none'
-                                }
-                            }
-                        })
+                                                }
+                                            }
+                                        })
+                                    })
+                                })
+                            })
+                        }
                     })
                 })
             })
-        }
+        })
     })
-})
-
-})
-})
-
-})
 })
 
 function next()

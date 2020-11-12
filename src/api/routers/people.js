@@ -223,7 +223,14 @@ router.post('/api/block',auth, async (req,res)=>{
     }
 })
 
-const names = ["Dog","Cat","Mouse","Horse","Turtle","Koala","Panda","Tortoise"]
+const names = ["Dog","Cat","Mouse","Horse","Turtle","Koala","Panda","Tortoise","Hyena","Chicken",
+"Hen","Peacock","Peahen","Octopus","Ostrich","Mongoose","Platypus","Cheetah","Lion","Tiger","BLue Whale","Seal","Sea Lion","Fish","Catfish","Squid",
+"Kangaroo","Moose","Dolphin","Elk","Goose","Parakeet","Parrot","Macaw","Cockatoo","Anteater","Polar Bear","Brown Bear","Wolverine",
+"Sting Ray","Cow","Buffalo","Goat","Sheep","Lamb","Puppy","Orca","Giraffe","Kitten","Budgie","Owl","Eagle","Falcon","Kite","Elephant",
+"Bat","Ibex","Gecko","Iguana","Wallaby","Rhinoceros","Crane","Ferret","Bulbul","Magpie","Wildebeest","Otter","Tapir","Camel","Python","Civet",
+"Duck","Mallard","Raccoon","Porcupine","Starfish","Urchin","Crocodile","Deer","Quail","Badger","Beaver","Pigeon","Gazelle","Armadillo","Squirrel",
+"Heron","Sugar Glider","Flamingo","Lemur","Hippopotamus","Mynah","Impala","Leopard","Panther","Kingfisher","Kookaburra","Lapwing","Beluga","Meerkat"]
+
 var flg =0
 
 function namegen(arr)

@@ -19,6 +19,7 @@
             .chat__main{
                 display: none;
             }
+            
             #findpeople{
                 display: none;
             }
@@ -49,7 +50,8 @@
           <br id="spacer" style="display: block;">
         <div class="chat">
             <div>
-                <div id="sidebar" class="chat__sidebar">
+                <h1 id="chatinfometa" class="text-center">Chats</h1>
+                <div id="sidebar" class="chat__sidebar">                    
                     <div class='text-center' style="padding: 10px;">
                         <p id="messageZero"></p>
                         <button id="findpeople" style="margin: 10px auto;">Find People</button>
@@ -70,6 +72,13 @@
                         <input name="message" placeholder="Message" required onkeydown="startedTyping()" onkeyup="stoppedTyping()" autocomplete="off">
                         <button>Send</button>
                     </form>
+                </div>
+            </div>
+            <div class ="chat__main2" class="container-fliud">
+                <div class="my-auto">
+                    <div class="text-center">
+                        <h1>Chats</h1>
+                    </div>
                 </div>
             </div>
         </div>       

@@ -16,7 +16,7 @@ fetch('/process/interests/you').then((response)=>{
         } else {
             for(i=1;i<=10;i++)
             {
-                document.querySelector(`#message-${i}`).textContent=`${i}. ${data.interests[i-1]}`
+                document.querySelector(`#message-${i}`).textContent=`${data.interests[i-1]}`
                 
             }
         }
