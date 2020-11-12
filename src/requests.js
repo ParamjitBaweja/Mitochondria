@@ -287,6 +287,28 @@ const acceptRequest =  async function(token,id,callback)
     callback({error})
   }
 }
+const deleteRequest =  async function(token,id,callback)  
+{
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+    const bodyParameters = {
+      id
+    };
+    const response = await axios.post(`${process.env.API_URL}/api/requests/delete`,
+    bodyParameters,
+    config
+    )
+    console.log(response)
+    callback('')
+  }
+  catch(error)
+  {
+    console.log(error)
+    callback({error})
+  }
+}
 const allRequests = async function(token,callback)  
 {
   try {
@@ -479,7 +501,8 @@ module.exports = {
   sendMessage,
   allChats,
   oldChats,
-  updateMeta
+  updateMeta,
+  deleteRequest
 }
 // const https = require('http')
 

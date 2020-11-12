@@ -25,6 +25,10 @@
         #request{
             display: none;
         }
+        #delRequest{
+            margin-top: 20px;
+            display: none;
+        }
         #previous{
             display: none;
             float:left;
@@ -57,7 +61,7 @@
             border: 3px solid #2980B9;
             border-radius: 20px;
             font-size: 18px;
-            width: 80%;
+            width: 50%;
             margin: 15px auto;
         
         }
@@ -101,6 +105,9 @@
             #names
             {
                 font-size: 20px;
+            }
+            .databuttons{
+                width: 80%;
             }
         } 
     </style>
@@ -148,7 +155,9 @@
                     <p class="data" id="message-4"></p>
                     <br>
                     <div class="text-center">
-                        <input class="metabuttons" onclick="requestfunc()" type="button" value="Loading..." id="request" />              
+                        <input class="metabuttons" onclick="requestfunc()" type="button" value="Loading..." id="request" />
+                        <br>
+                        <input class="metabuttons" onclick="delRequestfunc()" type="button" value="Loading..." id="delRequest" />              
                     </div>
                 </div>  
             </div>

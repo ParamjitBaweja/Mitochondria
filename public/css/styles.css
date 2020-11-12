@@ -4,6 +4,8 @@
     border-bottom: 5px solid #646566;
     background-color: #ffffff;  
     border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 .header a {

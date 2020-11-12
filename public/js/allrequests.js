@@ -78,6 +78,7 @@ function requestfunc()
     document.getElementById('request').style.display='none'
     document.getElementById('next').style.display='none'
     document.getElementById('previous').style.display='none'
+    document.getElementById('delRequest').style.display='none'
     fetch('/people/accept?id='+owners[index]).then((response)=>{
             response.json().then((data) => {
                 if (data.error) {
@@ -88,6 +89,7 @@ function requestfunc()
                     console.log(index)
                     //interests.splice(index,1)
                     owners.splice(index,1)
+                    bio.splice(index,1)
                     if(owners.length==0)
                     {
                         window.location.pathname = '/profile/people'
@@ -96,6 +98,47 @@ function requestfunc()
                     document.getElementById('request').style.display='inline-block'
                     document.getElementById('next').style.display='inline-block'
                     document.getElementById('previous').style.display='inline-block'
+                    document.getElementById('delRequest').style.display='inline-block'
+                    if(index==owners.length-1)
+                    {
+                        index--
+                    }
+                    next()
+                }
+            })
+        })
+};
+
+function delRequestfunc()
+{
+    document.getElementById('request').style.display='none'
+    document.getElementById('delRequest').style.display='none'
+    document.getElementById('next').style.display='none'
+    document.getElementById('previous').style.display='none'
+    fetch('/people/delete?id='+owners[index]).then((response)=>{
+            response.json().then((data) => {
+                if (data.error) {
+                    console.log("error")
+                    console.log(data.error)
+                } else {
+                    console.log("sent")
+                    console.log(index)
+                    //interests.splice(index,1)
+                    owners.splice(index,1)
+                    bio.splice(index,1)
+                    if(owners.length==0)
+                    {
+                        window.location.pathname = '/profile/people'
+                    }
+                    index--
+                    document.getElementById('request').style.display='inline-block'
+                    document.getElementById('delRequest').style.display='inline-block'
+                    document.getElementById('next').style.display='inline-block'
+                    document.getElementById('previous').style.display='inline-block'
+                    if(index==owners.length-1)
+                    {
+                        index--
+                    }
                     next()
                 }
             })
@@ -176,6 +219,8 @@ function data()
                                     {
                                         document.querySelector('#request').value = "Accept Request"
                                         document.querySelector('#request').style.display='inline-block'
+                                        document.querySelector('#delRequest').value = "Reject Request"
+                                        document.querySelector('#delRequest').style.display='inline-block'
                                     }
                                     if((index)==(age.length-1))
                                     {

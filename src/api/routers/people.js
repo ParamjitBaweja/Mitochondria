@@ -139,6 +139,54 @@ router.post('/api/requests/accept',auth, async (req,res)=>{
         res.status(500).send()
     }
 })
+//delete a request
+router.post('/api/requests/delete',auth, async (req,res)=>{
+    const id= req.body.id
+    try{
+        //remove from sent list of acceptor
+        const requests = await Requests.findOne({owner: req.user._id})
+        if(!requests){
+            res.status(404).send({error: 'Database error!'})
+        }
+        else{
+            var arr= requests.rec
+            console.log(arr)
+            if(arr.length>0)
+            {
+                const index = arr.indexOf(id)
+                if(index>-1)
+                {
+                    arr.splice(index,1)
+                }
+            }
+            requests.rec=arr
+            await requests.save()           
+        }
+        //move to the friend list of the request sender
+        const recreq = await Requests.findOne({owner: id})
+        if(!recreq){
+            res.status(404).send({error: 'Database error!'})
+        }
+        else{
+            var arr= recreq.sent
+            const index = arr.indexOf(req.user._id)
+            if(index>-1)
+            {
+                arr.splice(index,1)
+            }
+            recreq.sent=arr
+            await recreq.save()                     
+        }
+        res.send()  
+    }catch(e)
+    {
+        console.log(e)
+        res.status(500).send()
+    }
+})
+
+
+
 //Block a user
 router.post('/api/block',auth, async (req,res)=>{
     const id= req.body.id

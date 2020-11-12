@@ -20,7 +20,8 @@ const {signup,
     sendMessage,
     allChats,
     oldChats,
-    updateMeta
+    updateMeta,
+    deleteRequest
     } = require('../requests')
 
 const router = new express.Router()
@@ -389,6 +390,32 @@ router.get('/people/accept', async (req,res)=>
     { 
         try{
             await acceptRequest(token,req.query.id,(error)=>
+            {
+                if(error)
+                {
+                    return res.send({error: "Something went wrong"})
+                }
+                res.send({
+                })
+            })
+        }
+        catch(error)
+        {
+            res.send({error:"something went wrong"})   
+        }
+    }
+    else{    
+        res.send({error:"something went wrong"})   
+    }
+})
+
+router.get('/people/delete', async (req,res)=>
+{
+    const token = req.cookies['JWT']
+    if (token) 
+    { 
+        try{
+            await deleteRequest(token,req.query.id,(error)=>
             {
                 if(error)
                 {

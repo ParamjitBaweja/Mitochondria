@@ -38,6 +38,7 @@ document.getElementById("request").onclick = function () {
     document.getElementById('next').style.display='none'
     document.getElementById('previous').style.display='none'
     document.getElementById('home').style.display='none'
+    document.getElementById('more').style.display='none'
     fetch('/people/send?id='+owners[index]).then((response)=>{
             response.json().then((data) => {
                 if (data.error) {
@@ -51,6 +52,12 @@ document.getElementById("request").onclick = function () {
                     owners.splice(index,1)
                     match.splice(index,1)
                     console.log(match)
+                    if((index-min)==(owners.length))
+                    {
+                        document.getElementById('more').style.display='inline-block'
+                        document.getElementById('home').style.display='inline-block'
+                        return noprofiles()
+                    }
                     index--
                     document.getElementById('request').style.display='inline-block'
                     document.getElementById('next').style.display='inline-block'
@@ -84,8 +91,8 @@ fetch('/process/seen').then((response)=>{
         {
             console.log(data.error)
         }
-        seen=data.ids
-        //seen=[]
+        //seen=data.ids
+        seen=[]
         if(seen===undefined)
         {
             seen=[]
@@ -101,8 +108,8 @@ fetch('/requests/all').then((response)=>{
         rec = data.rec
         friends = data.friends
         //friends=[]
-        sent = data.sent
-        //sent=[]
+        //sent = data.sent
+        sent=[]
 
 fetch('/process/interests/you').then((response)=>{
     response.json().then((data) => {
@@ -192,7 +199,7 @@ fetch('/process/interests/you').then((response)=>{
                     {
                         if(owners[i]===filter)
                         {
-                            for(j=i;j<owners.length;j++){
+                            for(j=i;j<owners.length-1;j++){
                                 owners[j]=owners[j+1]
                                 interests[j]= interests[j+1]
                             }
@@ -204,7 +211,7 @@ fetch('/process/interests/you').then((response)=>{
                     //check if there are any profiles left after filtering
                     if(owners.length==0)
                     {
-                        return noprofiles()
+                        return endofprofiles()
                     }
                     //determine the matches
                     for(i=0; i< interests.length;i++)
@@ -404,6 +411,10 @@ function load()
         tempowners[j]=owners[i]
     }
     //console.log(tempowners)
+    if(tempowners.length==0)
+    {
+        return endofprofiles()
+    }
     var x = tempowners.toString();
     fetch('/process/people/profiles?ids='+x).then((response)=>{
         response.json().then((data) => {
@@ -452,6 +463,15 @@ function noprofiles()
     document.getElementById('previous').style.display='none'
     document.getElementById('next').style.display='none'
     document.getElementById('more').style.display='inline-block'
+    document.getElementById('info').style.display='none'
+}
+
+function endofprofiles()
+{
+    messageOne.textContent= "There are no more profiles for you to see"
+    document.getElementById('previous').style.display='none'
+    document.getElementById('next').style.display='none'
+    document.getElementById('more').style.display='none'
     document.getElementById('info').style.display='none'
 }
 

@@ -49,10 +49,6 @@ fetch('/requests/all').then((response)=>{
         me=data.owner 
         unseen = data.unseen
         newmsgs  = data.newmsgs
-        if(rooms===undefined)
-        {
-            window.location.pathname = '/profile'
-        }
         console.log(friends.length)
         if(friends.length==0)
         {
@@ -60,15 +56,17 @@ fetch('/requests/all').then((response)=>{
             document.getElementById("findpeople").style.display='block'        
         }
         else{
-
+            if(rooms===undefined)
+            {
+                return window.location.pathname = '/profile'
+            }
             socket.emit('join',{username:me,room:me}, (error)=>{
                 if(error)
                 {
                     alert(error)
                     location.href='/'
                 }
-            }) 
-            
+            })             
             if(rooms.length>0)
             {
                 var x= rooms.toString()

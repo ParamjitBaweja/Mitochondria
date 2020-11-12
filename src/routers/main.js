@@ -10,13 +10,18 @@ router.use(cookieParser())
 //     //res.redirect('/profile')
 //     res.render('chat')
 // }) 
+
+// router.get('/test',(req,res)=>{
+//     res.render('welcome',{
+//         title:'Welcome',
+//     })
+// }) 
+
 router.get('/login',(req,res)=>{
     res.render('login',{
         title:'Login',
     })
 })  
-
-
 router.get('/profile',(req,res)=>{
     res.render('view',{
         title:'Profile',
@@ -64,6 +69,7 @@ router.get('/forgot',(req,res)=>{
         title:'Forgot password',
     })
 })
+
 router.get('/reset/:id',(req,res)=>{
     res.render('reset',{
         title:'Reset Password',

@@ -3,12 +3,13 @@
 <html>
 
 <head>
-    <title>Login</title>
+    <title>Welcome</title>
     {{>logo}}
     <link rel="stylesheet" href="/css/styles_noheader.css">
     <style>
         #message-1{
             color: #888888;
+            color:black;
             font-size: 100px;
             display: block;
             opacity: 0;
@@ -16,6 +17,7 @@
         }
         #message-2{
             color: #888888;
+            color:black;
             font-size: 25px;
             display: block;
             opacity: 0;
@@ -23,6 +25,14 @@
         }
         #myButton{
             display: none;
+        }
+        @media only screen and (max-width: 500px) {
+            #message-1{
+                font-size: 50px;
+            }
+            #message-2{
+                font-size: 15px;
+            }
         }
     </style>
 </head>
