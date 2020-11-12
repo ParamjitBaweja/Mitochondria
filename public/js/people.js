@@ -91,8 +91,8 @@ fetch('/process/seen').then((response)=>{
         {
             console.log(data.error)
         }
-        //seen=data.ids
-        seen=[]
+        seen=data.ids
+        //seen=[]
         if(seen===undefined)
         {
             seen=[]
@@ -108,8 +108,8 @@ fetch('/requests/all').then((response)=>{
         rec = data.rec
         friends = data.friends
         //friends=[]
-        //sent = data.sent
-        sent=[]
+        sent = data.sent
+        //sent=[]
 
 fetch('/process/interests/you').then((response)=>{
     response.json().then((data) => {
