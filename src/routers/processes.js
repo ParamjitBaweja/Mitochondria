@@ -170,6 +170,11 @@ router.get('/process/signup', async (req,res)=>{
             error: 'You must provide your age!'
         })
     }
+    if (req.query.age<13) {
+        return res.send({
+            error: 'You must be at least 13 years old!'
+        })
+    }
     if(req.query.password.toLowerCase().includes('password')){
         return res.send({error:'Your password cannot contain "password"'})
     }
