@@ -39,7 +39,7 @@ const signup = async function(email, password,name,age, callback)
   catch(error)
   {
     console.log(error)
-    callback(`This email seems to be registered with us. If you haven't verified your e-mail address yet, we will resend your verification e-mail. If you have, pleaes try logging in.`, {})
+    callback(`This email seems to be registered with us. If you haven't verified your e-mail address yet, we will resend your verification e-mail. If you have, please try logging in.`, {})
   }
 }
 const view = async function(token,callback)  

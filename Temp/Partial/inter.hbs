@@ -1,5 +1,18 @@
 <form id="interests" class="container">
     <div class="row justify-content-center">
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#Academics">Academics</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+            </div>
+    </div>
+    <div class="row justify-content-center">
             <input id="Education" class="interestbuttons" type = "button" value = "Education" onclick = "GetSelected('Education')" />
             <input id="Economics" class="interestbuttons" type = "button" value = "Economics" onclick = "GetSelected('Economics')" />
             <input id="Architecture" class="interestbuttons" type = "button" value = "Architecture" onclick = "GetSelected('Architecture')" />
@@ -20,16 +33,19 @@
             <input id="News" class="interestbuttons" type = "button" value = "News" onclick = "GetSelected('News')" />
             <input id="History" class="interestbuttons" type = "button" value = "History" onclick = "GetSelected('History')" />
             <input id="Philosophy" class="interestbuttons" type = "button" value = "Philosophy" onclick = "GetSelected('Philosophy')" />
-            <input id="Math" class="interestbuttons" type = "button" value = "Math" onclick = "GetSelected('Math')" />
-            <input id="Finance" class="interestbuttons" type = "button" value = "Finance" onclick = "GetSelected('Finance')" />
-            <input id="Geography" class="interestbuttons" type = "button" value = "Geography" onclick = "GetSelected('Geography')" />
-            <input id="Astronomy" class="interestbuttons" type = "button" value = "Astronomy" onclick = "GetSelected('Astronomy')" />
-            <input id="Sports" class="interestbuttons" type = "button" value = "Sports" onclick = "GetSelected('Sports')" />
-            <input id="Health" class="interestbuttons" type = "button" value = "Health" onclick = "GetSelected('Health')" />
-            <input id="Health News" class="interestbuttons" type = "button" value = "Health News" onclick = "GetSelected('Health News')" />
-            <input id="Robotics" class="interestbuttons" type = "button" value = "Robotics" onclick = "GetSelected('Robotics')" />
+            <div id="Academics" class="text-center">
+                <p>Academics</p>
+            
+                <input id="Math" class="interestbuttons" type = "button" value = "Math" onclick = "GetSelected('Math')" />
+                <input id="Finance" class="interestbuttons" type = "button" value = "Finance" onclick = "GetSelected('Finance')" />
+                <input id="Geography" class="interestbuttons" type = "button" value = "Geography" onclick = "GetSelected('Geography')" />
+                <input id="Astronomy" class="interestbuttons" type = "button" value = "Astronomy" onclick = "GetSelected('Astronomy')" />
+                <input id="Sports" class="interestbuttons" type = "button" value = "Sports" onclick = "GetSelected('Sports')" />
+                <input id="Health" class="interestbuttons" type = "button" value = "Health" onclick = "GetSelected('Health')" />
+                <input id="Health News" class="interestbuttons" type = "button" value = "Health News" onclick = "GetSelected('Health News')" />
+                <input id="Robotics" class="interestbuttons" type = "button" value = "Robotics" onclick = "GetSelected('Robotics')" />
+            </div>
             <input id="test19" class="interestbuttons" type = "button" value = "test19" onclick = "GetSelected('test19')" />
-
 
             <p id="message-1"></p>
     </div>

@@ -58,6 +58,7 @@ button:disabled {
     background: #7c5cbf94;
 }
 
+/* Chat Page Layout */
 
 .sidebar_buttons{
     width: 90%;
@@ -74,8 +75,7 @@ button:disabled {
 
 
 
-
-/* Chat Page Layout */
+/* Main Chat Page Layout */
 
 .chat {
     display: flex;
@@ -141,6 +141,7 @@ button:disabled {
     margin-bottom: 0px;
 }
 
+
 #mymessage{
     display: block;
     float: right;
@@ -158,6 +159,64 @@ button:disabled {
 
 .message a {
     color: #0070CC;
+}
+
+
+/*Quiz styles*/
+.differentBubble
+{
+    display: inline-block;
+    background:black ;
+    color: white;
+    border-radius: 5px;
+    padding: 0px 10px;
+    padding-top: 5px;
+    word-break: break-all;
+    padding-bottom: 0px;
+}
+
+#notmyquizmessage
+{
+    background:black;
+    max-width: 70%;
+    font-family: Helvetica, Arial,  sans-serif;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.quizOptionButtons
+{
+    border: 1px solid white;
+    display: block;
+    background:black;
+    min-width: 60%;
+    max-width: 90%;
+    border-radius: 20px;
+    margin: 5px auto;
+    padding : 5px;
+    font-size: 12.5px;
+    overflow-wrap: break-word;
+}
+
+.quizDisplayMeta
+{
+    font-size: 10px;
+    display: block;
+    margin: 0px;
+}
+
+.quizCreateBodyBoxes{
+    width: 90%;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+#quizCreateBody
+{
+    padding-top:20px;
+    padding-bottom: 20px;
+    background:#f2f2f2;
+    border-radius: 20px;
 }
 
 /* Message Composition Styles */
@@ -302,6 +361,9 @@ button:disabled {
         max-width: 90%;
     }
     #notmytextmessage{
+        max-width: 90%;
+    }
+    #notmyquizmessage{
         max-width: 90%;
     }
     .chat__sidebar {

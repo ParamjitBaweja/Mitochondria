@@ -7,9 +7,14 @@ const formInput = messageForm.querySelector('input')
 const formButton = messageForm.querySelector('button')
 const sendLocationButton = document.querySelector('#send-location')
 const messages = document.querySelector('#messages')
+const quizContent = document.querySelector('#quizContent')
 
 //Templates
 const messageTemplate= document.querySelector('#message-template').innerHTML
+const quizTemplate= document.querySelector('#quiz-template').innerHTML
+const quizYouTemplate= document.querySelector('#quizYouTemplate').innerHTML
+const quizMeTemplate= document.querySelector('#quizMeTemplate').innerHTML
+const quizMeTemplateOptions= document.querySelector('#quizMeTemplateOptions').innerHTML
 const locationMessageTemplate= document.querySelector('#locationMessage-template').innerHTML
 const sidebarTemplate= document.querySelector('#sidebar-template').innerHTML
 const sidebarTemplateNew= document.querySelector('#sidebar-template-new').innerHTML
@@ -136,7 +141,103 @@ function messagesRender(index)
             }
             for(j=0;j<allmsgs[i].messages.length;j++)
             {
-                if(allmsgs[i].messages[j].sender===me)
+                if(allmsgs[i].messages[j].sender.split("|delim->")[1]==='Quiz')
+                {
+                    if(allmsgs[i].messages[j].sender.split("|delim->")[0]===me)
+                    {
+                        var msg = allmsgs[i].messages[j].message.split("|delim->")[0]
+                        var options = ''
+                        var flag=0
+                        if(allmsgs[i].messages[j].message.split("|delim->")[1]!="")
+                        {
+                            flag=1
+                            options=options+`${allmsgs[i].messages[j].message.split("|delim->")[1]}`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[2]!="")
+                        {
+                            flag=1
+                            options=options+`<br>${allmsgs[i].messages[j].message.split("|delim->")[2]}`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[3]!="")
+                        {
+                            flag=1
+                            options=options+`<br>${allmsgs[i].messages[j].message.split("|delim->")[3]}`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[4]!="")
+                        {
+                            flag=1
+                            options=options+`<br>${allmsgs[i].messages[j].message.split("|delim->")[4]}`
+                        }
+                        if(flag==0)
+                        {
+                            const html = Mustache.render(quizMeTemplate,{
+                                message:msg,
+                                createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                            })
+                            messages.insertAdjacentHTML('beforeend',html)
+                            messages.scrollTop = messages.scrollHeight
+                        }
+                        else{
+                            const html = Mustache.render(quizMeTemplateOptions,{
+                                message:msg,
+                                options,
+                                createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                            })
+                            messages.insertAdjacentHTML('beforeend',html)
+                            messages.scrollTop = messages.scrollHeight
+                        }
+                        
+                    }
+                    else{
+                        
+                        var msg = allmsgs[i].messages[j].message.split("|delim->")[0]
+                        var options = '<p style="margin:0px;" class="quizDisplayMeta">Options:</p>'
+                        var flag=0
+                        if(allmsgs[i].messages[j].message.split("|delim->")[1]!="")
+                        {
+                            flag=1
+                            options=options+`<button type="button" class="quizOptionButtons" 
+                            onclick="quizOption('${allmsgs[i].messages[j].message.split("|delim->")[1]}')">${allmsgs[i].messages[j].message.split("|delim->")[1]}</button>`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[2]!="")
+                        {
+                            flag=1
+                            options=options+`<button type="button" class="quizOptionButtons" 
+                            onclick="quizOption('${allmsgs[i].messages[j].message.split("|delim->")[2]}')">${allmsgs[i].messages[j].message.split("|delim->")[2]}</button>`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[3]!="")
+                        {
+                            flag=1
+                            options=options+`<button type="button" class="quizOptionButtons" 
+                            onclick="quizOption('${allmsgs[i].messages[j].message.split("|delim->")[3]}')">${allmsgs[i].messages[j].message.split("|delim->")[3]}</button>`
+                        }
+                        if(allmsgs[i].messages[j].message.split("|delim->")[4]!="")
+                        {
+                            flag=1
+                            options=options+`<button type="button" class="quizOptionButtons" 
+                            onclick="quizOption('${allmsgs[i].messages[j].message.split("|delim->")[4]}')">${allmsgs[i].messages[j].message.split("|delim->")[4]}</button>`
+                        }
+                        if(flag==0)
+                        {
+                            const html = Mustache.render(quizYouTemplate,{
+                                message:msg,
+                                createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                            })
+                            messages.insertAdjacentHTML('beforeend',html)
+                            autoscroll()
+                        }
+                        else{
+                            const html = Mustache.render(quizYouTemplate,{
+                                message:msg,
+                                options,
+                                createdAt: moment(allmsgs[i].messages[j].time).format('h:mm a')
+                            })
+                            messages.insertAdjacentHTML('beforeend',html)
+                            autoscroll()
+                        }
+                    }
+                }
+                else if(allmsgs[i].messages[j].sender===me)
                 {
                     const html = Mustache.render(locationMessageTemplate,{
                         message: allmsgs[i].messages[j].message,
@@ -236,6 +337,97 @@ socket.on('message', (message)=>{
         messages.insertAdjacentHTML('beforeend',html)
         autoscroll()
     }
+    else if(message.username.split("|delim->")[1]==='Quiz')
+    {
+        if(message.username.split("|delim->")[0]===me)
+        {
+            var msg = message.text.split("|delim->")[0]
+            var options = '<p style="margin:0px;" class="quizDisplayMeta">Options:</p>'
+            var flag=0
+            if(message.text.split("|delim->")[1]!="")
+            {
+                flag=1
+                options=options+`${message.text.split("|delim->")[1]}`
+            }
+            if(message.text.split("|delim->")[2]!="")
+            {
+                flag=1
+                options=options+`<br>${message.text.split("|delim->")[2]}`
+            }
+            if(message.text.split("|delim->")[3]!="")
+            {
+                flag=1
+                options=options+`<br>${message.text.split("|delim->")[3]}`
+            }
+            if(message.text.split("|delim->")[4]!="")
+            {
+                flag=1
+                options=options+`<br>${message.text.split("|delim->")[4]}`
+            }
+            if(flag==0)
+            {
+                const html = Mustache.render(quizMeTemplate,{
+                    message:msg,
+                    createdAt: moment(message.createdAt).format('h:mm a')
+                })
+                messages.insertAdjacentHTML('beforeend',html)
+                autoscroll()
+            }
+            else{
+                const html = Mustache.render(quizMeTemplateOptions,{
+                    message:msg,
+                    options,
+                    createdAt: moment(message.createdAt).format('h:mm a')
+                })
+                messages.insertAdjacentHTML('beforeend',html)
+                autoscroll()
+            }
+            
+        }
+        else{
+            var msg = message.text.split("|delim->")[0]
+            var options = ''
+            var flag=0
+            if(message.text.split("|delim->")[1]!="")
+            {
+                flag=1
+                options=options+`<button type="button" class="quizOptionButtons" onclick="quizOption('${message.text.split("|delim->")[1]}')">${message.text.split("|delim->")[1]}</button>`
+            }
+            if(message.text.split("|delim->")[2]!="")
+            {
+                flag=1
+                options=options+`<button type="button" class="quizOptionButtons" onclick="quizOption('${message.text.split("|delim->")[2]}')">${message.text.split("|delim->")[2]}</button>`
+            }
+            if(message.text.split("|delim->")[3]!="")
+            {
+                flag=1
+                options=options+`<button type="button" class="quizOptionButtons" onclick="quizOption('${message.text.split("|delim->")[3]}')">${message.text.split("|delim->")[3]}</button>`
+            }
+            if(message.text.split("|delim->")[4]!="")
+            {
+                flag=1
+                options=options+`<button type="button" class="quizOptionButtons" onclick="quizOption('${message.text.split("|delim->")[4]}')">${message.text.split("|delim->")[4]}</button>`
+            }
+            if(flag==0)
+            {
+                const html = Mustache.render(quizYouTemplate,{
+                    message:msg,
+                    createdAt: moment(message.createdAt).format('h:mm a')
+                })
+                messages.insertAdjacentHTML('beforeend',html)
+                autoscroll()
+            }
+            else{
+                const html = Mustache.render(quizYouTemplate,{
+                    message:msg,
+                    options,
+                    createdAt: moment(message.createdAt).format('h:mm a')
+                })
+                messages.insertAdjacentHTML('beforeend',html)
+                autoscroll()
+            }
+        }
+    }
     else{
         const html = Mustache.render(messageTemplate,{
             message: message.text,
@@ -246,6 +438,56 @@ socket.on('message', (message)=>{
     }
     
 })
+
+function quizOption(message)
+{
+    formButton.setAttribute('disabled','disabled')
+    //disable the send button while the message is being sent
+    message = `${message}|delim->|delim->|delim->|delim->`
+    const username= `${me}|delim->Quiz`
+    const timestamp = moment().toISOString();
+    const roomind = names.indexOf(current)
+    socket.emit("sendMessage",{room:rooms[roomind],username,message},(error)=>{        
+        var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+        if(width<=650)
+        {
+            messages.scrollTop = messages.scrollHeight
+        }                
+        if(error)
+        {
+            alert(error)
+            formButton.removeAttribute('disabled')
+        }
+        else
+        {
+            fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+username+'&time='+timestamp).then((response)=>{
+                response.json().then((data) => {
+                    formButton.removeAttribute('disabled')
+                    if (data.error) {
+                        console.log("error")
+                        console.log(data.error)
+                    } else {
+                        socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
+                        var tempind = position.indexOf(rooms[roomind])
+                        if(tempind>-1)
+                        {
+                            position.splice(tempind,1)
+                        }
+                        position.unshift(rooms[roomind])
+                        var tempind = unseen.indexOf(rooms[roomind])
+                        if(tempind>-1)
+                        {
+                            unseen.splice(tempind,1)
+                        }
+                        unseen.unshift(rooms[roomind])
+                        sidebarRender()
+                    }
+                })
+            })  
+        }
+    })
+}
+
 
 //send message
 messageForm.addEventListener('submit',(e)=>{
@@ -314,7 +556,8 @@ socket.on('typing',(mode)=>
 {
     if(mode===1)
     {
-        document.querySelector('#info-message').textContent=`${current} is typing...`
+        //document.querySelector('#info-message').textContent=`${current} is typing...`
+        document.querySelector('#info-message').textContent=`Typing...`
     }
     else
     {
@@ -372,13 +615,40 @@ socket.on('newmessage', (notif)=>{
                 } else {
                     allmsgs= data
                     //console.log(data)
+                    notifyMe()
                     sidebarRender()
                 }
             })
         })
-    }  
-    
+    }      
 })
+
+function notifyMe() {
+    // Let's check if the browser supports notifications
+if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+}
+
+// Let's check whether notification permissions have already been granted
+else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification("You have a new message");
+}
+
+// Otherwise, we need to ask the user for permission
+else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+    // If the user accepts, let's create a notification
+    if (permission === "granted") {
+        var notification = new Notification("You have a new message");
+    }
+    });
+}
+
+// At last, if the user has denied notifications, and you 
+// want to be respectful there is no need to bother them any more.
+}
+
 
 function startedTyping()
 {
@@ -485,6 +755,75 @@ function updateMetaFunction(index)
     sidebarRender()
 }
 
+function quizRender()
+{
+    const html = Mustache.render(quizTemplate,{
+        chatName: current,
+    })
+    quizContent.insertAdjacentHTML('beforeend',html)
+}
+function quizSend()
+{
+    const q = document.querySelector('#question').value
+    const o1 = document.querySelector('#option-1').value
+    const o2 = document.querySelector('#option-2').value
+    const o3 = document.querySelector('#option-3').value
+    const o4 = document.querySelector('#option-4').value
+    if(q!="")
+    {
+        formButton.setAttribute('disabled','disabled')
+        //disable the send button while the message is being sent
+        const message = `${q}?|delim->${o1}|delim->${o2}|delim->${o3}|delim->${o4}`
+        const username= `${me}|delim->Quiz`
+        document.querySelector('#question').value=''
+        document.querySelector('#option-1').value=''
+        document.querySelector('#option-2').value=''
+        document.querySelector('#option-3').value=''
+        document.querySelector('#option-4').value=''
+        const timestamp = moment().toISOString();
+        const roomind = names.indexOf(current)
+        socket.emit("sendMessage",{room:rooms[roomind],username,message},(error)=>{        
+            var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
+            if(width<=650)
+            {
+                messages.scrollTop = messages.scrollHeight
+            }                
+            if(error)
+            {
+                alert(error)
+                formButton.removeAttribute('disabled')
+            }
+            else
+            {
+                fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+username+'&time='+timestamp).then((response)=>{
+                    response.json().then((data) => {
+                        formButton.removeAttribute('disabled')
+                        if (data.error) {
+                            console.log("error")
+                            console.log(data.error)
+                        } else {
+                            socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
+                            var tempind = position.indexOf(rooms[roomind])
+                            if(tempind>-1)
+                            {
+                                position.splice(tempind,1)
+                            }
+                            position.unshift(rooms[roomind])
+                            var tempind = unseen.indexOf(rooms[roomind])
+                            if(tempind>-1)
+                            {
+                                unseen.splice(tempind,1)
+                            }
+                            unseen.unshift(rooms[roomind])
+                            sidebarRender()
+                        }
+                    })
+                })  
+            }
+        })
+    }
+    
+}
 
 
 // const autoscroll=()=>{

@@ -7,6 +7,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/chatStyles.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script>
+        $(document).ready(function(){
+            function alignModal(){
+                var modalDialog = $(this).find(".modal-dialog");
+                
+                // Applying the top margin on modal to align it vertically center
+                modalDialog.css("margin-top", Math.max(0, ($(window).height() - modalDialog.height()) / 2));
+            }
+            // Align modal when it is displayed
+            $(".modal").on("shown.bs.modal", alignModal);
+            
+            // Align modal when user resize the window
+            $(window).on("resize", function(){
+                $(".modal:visible").each(alignModal);
+            });   
+        });
+        </script>
         <style>
             #names{
                 display: block;
@@ -35,6 +54,12 @@
                 padding-bottom: 3px;
                 margin-bottom: 3px;
             }
+            #info-message{
+                padding-left: 10px;
+            }
+            #olderChatsButton{
+                margin: 20px auto;
+            }
         </style>
     </head>
     <body>
@@ -62,6 +87,10 @@
                 <div id="chathead">
                     <button id="collapse" onClick="collapse()"><img src="/img/back.png" height="20" /></button>
                     <h2 id="personname"></h2>
+                    <a href="#myModal" data-toggle="modal" style="float: right; padding-top: 5px;" onclick="quizRender()"><img src="/img/quiz.png" height="30"/></a>
+                    <div id="myModal" class="modal">
+                        <div id="quizContent"></div>
+                    </div>
                 </div>
                 <div id="messages" class="chat__messages"></div>
                 <div>
@@ -78,11 +107,48 @@
                 <div class="my-auto">
                     <div class="text-center">
                         <h1>Chats</h1>
+                        <p>Please be careful before sharing any personal data with anyone</p>
+                        <p>Allow browser notifications if you want to be notified of new messages</p>
+                    </div>
+                </div>
+               <!-- <div class="bs-example">
+
+                    
+                </div>-->
+            </div>
+        </div>               
+        <script id="quiz-template" type="text/html">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Quiz {{chatName}}!</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                    </div>
+                    <div class="modal-body">
+                        <form class="text-center" id="quizCreateBody">
+                            <p style="margin:0px;">Question</p>
+                            <input class="quizCreateBodyBoxes" id="question" required autocomplete="off" placeholder="Question">
+                            <br>
+                            <p style="margin:0px;">Options</p>
+                            <input class="quizCreateBodyBoxes" id="option-1" autocomplete="off" placeholder="Option 1">
+                            <br>
+                            
+                            <input class="quizCreateBodyBoxes" id="option-2" autocomplete="off" placeholder="Option 2">
+                            <br>
+                            
+                            <input class="quizCreateBodyBoxes" id="option-3" autocomplete="off" placeholder="Option 3">
+                            <br>
+                            
+                            <input class="quizCreateBodyBoxes" id="option-4" autocomplete="off" placeholder="Option 4">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="quizSend()" data-dismiss="modal">Send</button>
                     </div>
                 </div>
             </div>
-        </div>       
-
+        </script>
         <script id="message-template" type="text/html">
             <div class="message">
                 <div class="bubble" id="notmytextmessage">
@@ -106,6 +172,48 @@
                 </div>
             </div>
         </script>
+        <script id="quizYouTemplate" type="text/html">
+            <div class="message">
+                <div id="notmyquizmessage" class="differentBubble">
+                    <p class="messagetext">{{message}}</p>
+                    {{{options}}}
+                </div>
+                <p>
+                    <span class="message__meta">{{createdAt}}</span>
+                </p>
+            </div>
+        </script>
+        <script id="quizMeTemplate" type="text/html">
+            <div class="message">    
+                <div id="mymessage">
+                    <div id="mytextmessage" class="differentBubble">
+                        <p class="messagetext">{{{message}}}</p> 
+                        <!--<p class="options">{{o1}}</p> 
+                        <p class="options">{{o2}}</p> 
+                        <p class="options">{{o3}}</p>  
+                        <p class="options">{{o4}}</p>-->                       
+                    </div>
+                    <p>
+                        <span class="message__meta" style="margin:5px; float:right; clear:both;">{{createdAt}}</span>
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </script>
+        <script id="quizMeTemplateOptions" type="text/html">
+            <div class="message">    
+                <div id="mymessage">
+                    <div id="mytextmessage" class="differentBubble">
+                        <p class="messagetext" style="margin:0px;">{{{message}}}</p> 
+                        <p class="messagetext" style="margin:0px;">{{{options}}}</p>                      
+                    </div>
+                    <p>
+                        <span class="message__meta" style="margin:5px; float:right; clear:both;">{{createdAt}}</span>
+                    </p>
+                    <br>
+                </div>
+            </div>
+        </script>
         <script id="sidebar-template" type="text/html">
             <button type="button" class="sidebar_buttons" onclick="joinchat('{{friendname}}')" id="names">{{friendname}}</button>
         </script>
@@ -113,7 +221,7 @@
             <button type="button" class="sidebar_buttons" onclick="joinchat('{{friendname}}')" id="names-new">{{friendname}}</button>
         </script>
         <script id="showMore" type="text/html">
-            <button type="button" onclick="showMore()" >Show older chats</button>
+            <button id="olderChatsButton" type="button" onclick="showMore()" >Show older chats</button>
             <br>
         </script>
 

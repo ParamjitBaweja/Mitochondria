@@ -14,11 +14,14 @@ login.addEventListener("click", (e) => {
     e.preventDefault()
     //const location = search.value
     messageOne.textContent = "Loading..."
+    document.body.scrollTop = document.body.scrollHeight; // For Safari
+    document.documentElement.scrollTop = document.documentElement   .scrollHeight;
     fetch(
         '/process/signup?email='+email.value+'&password='+password.value+'&name='+name.value
         +'&age='+age.value+'&repass='+repass.value
     ).then((response)=>{
         response.json().then((data) => {
+            
             if (data.error) {
                 messageOne.textContent = data.error
             } else {
