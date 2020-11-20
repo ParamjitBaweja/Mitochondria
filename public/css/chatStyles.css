@@ -166,7 +166,7 @@ button:disabled {
 .differentBubble
 {
     display: inline-block;
-    background:black ;
+    background:#424949 ;
     color: white;
     border-radius: 5px;
     padding: 0px 10px;
@@ -177,7 +177,7 @@ button:disabled {
 
 #notmyquizmessage
 {
-    background:black;
+    background:#424949;
     max-width: 70%;
     font-family: Helvetica, Arial,  sans-serif;
     padding-bottom: 0px;
@@ -188,8 +188,8 @@ button:disabled {
 {
     border: 1px solid white;
     display: block;
-    background:black;
-    min-width: 60%;
+    background:#424949;
+    min-width: 40%;
     max-width: 90%;
     border-radius: 20px;
     margin: 5px auto;

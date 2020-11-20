@@ -250,7 +250,7 @@ function messagesRender(index)
                 else if(allmsgs[i].messages[j].sender==='System')
                 {
                     const html = Mustache.render(messageTemplate,{
-                        message: "Hello",
+                        message: "Staring at this screen won't start a conversation...",
                         //createdAt: "System"
                     })
                     messages.insertAdjacentHTML('beforeend',html)
@@ -773,7 +773,7 @@ function quizSend()
     {
         formButton.setAttribute('disabled','disabled')
         //disable the send button while the message is being sent
-        const message = `${q}?|delim->${o1}|delim->${o2}|delim->${o3}|delim->${o4}`
+        const message = `Q: ${q}?|delim->${o1}|delim->${o2}|delim->${o3}|delim->${o4}`
         const username= `${me}|delim->Quiz`
         document.querySelector('#question').value=''
         document.querySelector('#option-1').value=''

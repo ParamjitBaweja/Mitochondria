@@ -14,6 +14,9 @@ const sendWelcomeEmail = (email,name)=>{
     to: email,
     subject: 'Welcome',
     html: `<h1>Welcome ${name},</h1><p>Your account was created successfully.</p>
+    <p>You are one of the first few to be using Mitochondria, which is currently being beta-tested.</p>
+    <p>Since this is not the final edition of Mitochondria, there are bound to be a few shortcomings, and we would much appreciate your feedback about the same.</p>
+    <p>Please send any and all feedback and queries to: mitochondria.emails@gmail.com</p>
     <p>This is a system generated mail, please do not reply to it.</p>`
   }
   transporter.sendMail(mailOptions, function(error, info){
@@ -80,7 +83,8 @@ const verifEmail = (email,name, id)=>{
       <br>
       <p>If the above don't work, paste this link in your browser: ${process.env.HOST_URL}/verify/${id} </p>
       <br>
-      <p>This link will stay valid for 15 minutes since generation</p>
+      <p>If you did not ask to reset your password, please ignore this message.</p>
+      <p>This link will stay valid for 15 minutes since the moment it was generated.</p>
       <p>This is a system generated mail, please do not reply to it.</p>
       </body></html>`
   }
@@ -125,7 +129,7 @@ const forgotPassword = (email,name, id)=>{
       <br>
       <p>If the above don't work, paste this link in your browser: ${process.env.HOST_URL}/reset/${id} </p>
       <br>
-      <p>This link will stay valid for 15 minutes since generation</p>
+      <p>This link will stay valid for 15 minutes since the moment it was generated.</p>
       <p>This is a system generated mail, please do not reply to it.</p></body></html>`
   }
   transporter.sendMail(mailOptions, function(error, info){
