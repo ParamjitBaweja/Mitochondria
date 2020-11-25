@@ -515,7 +515,6 @@ messageForm.addEventListener('submit',(e)=>{
         }
         else
         {
-            FetchAllChats(1)
             fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+me+'&time='+timestamp).then((response)=>{
                 response.json().then((data) => {
                     formButton.removeAttribute('disabled')
@@ -524,6 +523,7 @@ messageForm.addEventListener('submit',(e)=>{
                         console.log(data.error)
                     } else {
                         socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
+                        FetchAllChats(1)
                         var tempind = position.indexOf(rooms[roomind])
                         if(tempind>-1)
                         {
