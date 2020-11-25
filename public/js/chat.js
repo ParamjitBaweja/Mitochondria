@@ -299,7 +299,6 @@ function joinchat(name)
         else{
             document.querySelector('.chat__sidebar').style.width="225px"
         }
-
         if(index>-1)
         {
             current = names[index]
@@ -321,6 +320,7 @@ function joinchat(name)
         {
             document.querySelector('#sidebar').style.display="none"
             document.querySelector('.chat__main').style.display='flex'
+            document.querySelector('#chatinfometa').style.display="none"
         }
     }
 }
