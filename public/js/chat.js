@@ -515,6 +515,7 @@ messageForm.addEventListener('submit',(e)=>{
         }
         else
         {
+            FetchAllChats(1)
             fetch('/message/send?id='+rooms[roomind]+'&message='+message+'&sender='+me+'&time='+timestamp).then((response)=>{
                 response.json().then((data) => {
                     formButton.removeAttribute('disabled')
@@ -544,6 +545,27 @@ messageForm.addEventListener('submit',(e)=>{
             
 })
 
+function FetchAllChats(flg){
+    console.log("loading.......")
+    var x= rooms.toString()
+    fetch('/chats/all?ids='+x).then((response)=>{
+        response.json().then((data) => {
+            if (data.error) {
+                console.log(data.error)
+                //window.location.pathname = '/login'
+            } else {
+                allmsgs= data
+                //console.log(data)
+                if(flg==0)
+                {
+                    notifyMe()
+                    document.getElementById("myAudio").play()
+                }
+                sidebarRender()
+            }
+        })
+    })
+}
 
 function autoscroll()
 {
@@ -574,7 +596,7 @@ socket.on('typing',(mode)=>
 })
 
 socket.on('newmessage', (notif)=>{
-    //console.log("here")
+    console.log("here")
     var flag=0
     var tempindex = names.indexOf(current)
     if(tempindex>-1)
@@ -586,12 +608,13 @@ socket.on('newmessage', (notif)=>{
     }
     if(flag==1){
         var index = position.indexOf(notif)
-            if(index>-1)
-            {
-                position.splice(index,1)
-                position.unshift(notif)
-            }
-            updateMetaFunction(tempindex)
+        if(index>-1)
+        {
+            position.splice(index,1)
+            position.unshift(notif)
+        }
+        updateMetaFunction(tempindex)
+        FetchAllChats(1)
     }
     else
     {
@@ -607,23 +630,9 @@ socket.on('newmessage', (notif)=>{
             newmsgs.splice(index,1)
         }
         newmsgs.unshift(notif)
-        //console.log("loading.......")
-        var x= rooms.toString()
-        fetch('/chats/all?ids='+x).then((response)=>{
-            response.json().then((data) => {
-                if (data.error) {
-                    console.log(data.error)
-                    //window.location.pathname = '/login'
-                } else {
-                    allmsgs= data
-                    //console.log(data)
-                    notifyMe()
-                    document.getElementById("myAudio").play()
-                    sidebarRender()
-                }
-            })
-        })
-    }      
+        FetchAllChats(0)
+    }
+              
 })
 
 function notifyMe() {
@@ -706,7 +715,7 @@ function oldChatsRender()
         else if(oldchats[i].sender==='System')
         {
             const html = Mustache.render(messageTemplate,{
-                message: "Hello",
+                message: "Staring at this screen won't start a conversation...",
                 //createdAt: "System"
             })
             messages.insertAdjacentHTML('beforeend',html)
