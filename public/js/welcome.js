@@ -4,7 +4,8 @@ const button = document.querySelector('#myButton')
 
 
 document.getElementById("myButton").onclick = function () {
-    location.href = "/details";
+    //location.href = "/details";
+    location.href = "/instructions";
 };
 
 function unfade(element) {

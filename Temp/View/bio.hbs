@@ -15,6 +15,11 @@
             border: 2px solid #27497A;
             padding: 10px 25px;
         }
+        @media only screen and (max-width: 650px) {
+        .textBio{
+            font-size: 13px;
+        }
+    } 
     </style>
 </head>
 
@@ -23,9 +28,20 @@
     <div class="main-content">
         <h1>Your Bio</h1>
         <div class="colourcard">
-            <p>The only personal details displayed to other users is your interests and your bio</p>
-            <p>A good Bio will increase the likelihood of someone accepting your chat request</p>
-            <p>Only put data you want publicly visible here</p>
+            <p class="textBio">The only personal details displayed to other users is your interests and your bio</p>
+            <p class="textBio">A good Bio will increase the likelihood of someone accepting your chat request</p>
+            <p class="textBio">Only put data you want publicly visible here</p>
+            <p class="textBio">If you are not sure what to write here, try answering some of these questions in your bio</p>
+            <ol class="textBio">
+                <li>What are you the most passionate about?</li>
+                <li>What is a topic you would love to debate about?</li>
+                <li>Do you have an opinion that someone shouldn't disagree with?</li>
+                <li>Is there a social cause you care strongly about?</li>
+                <li>Are there any skillsets that you are good at/really want to learn?</li>
+                <li>What according to you is the most important quality in a person?</li>
+                <li>What is your most irrational fear?</li>
+            </ol>
+            <p class="textBio" style="font-size: small;">(Of course, these are merely suggestions, feel free to ignore them, go crazy)</p>
             <br>
             <textarea id="textareabox" class="form-control" name="textarea1" placeholder="Enter your bio here..." rows="10" ></textarea>
             <br>

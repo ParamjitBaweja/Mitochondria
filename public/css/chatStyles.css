@@ -70,7 +70,8 @@ button:disabled {
     font-family: Helvetica, Arial,  sans-serif;
 }
 .sidebar_buttons:hover{
-    background: white;
+    background: rgb(66, 65, 65);
+    color: white;
 }
 
 

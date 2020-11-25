@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Instructions</title>
+    {{>logo}}
+    <link rel="stylesheet" href="/css/styles_noheader.css">
+    <link rel="stylesheet" href="/css/interests.css">
+    <style>
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+        height: 100px;
+        width: 100px;
+       /* outline: black;*/
+        background-size: 100%, 100%;
+        border-radius: 50%;
+        /*border: 1px solid black;*/
+        background-image: none;
+        }
+
+        .carousel-control-next-icon:after
+        {
+        content: '>';
+        font-size: 40px;
+        color: black;
+        }
+
+        .carousel-control-prev-icon:after {
+        content: '<';
+        font-size: 40px;
+        color: black;
+        }
+        #CarouselEnd
+        {
+            position: relative;
+            right: 200px;
+            top: 500px;
+            width: 100px;
+            height: 100px;
+        }
+        button{
+            padding: 20px;
+            margin: 10px;
+        }
+        #tutsimg{
+            width: 100%;
+            border-radius: 15px;
+        }
+        .tuts{
+            padding:20px;
+        }
+        #interests{
+            margin: 5px auto;
+            padding: 10px;
+        }
+        @media only screen and (max-width: 650px) {
+            .tuts{
+                padding:0px;
+            }
+        } 
+    </style>
+</head>
+
+<body>
+    {{>GTagM}}
+    <div class="main-content">
+        <div class = "tuts">
+            <img id="tutsimg" src="/img/tutorial.png" alt="Tutorial">
+        </div>
+        <div class="text-center">
+            <button id="interests" onclick="window.location='/details';">Continue</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+</body>
+
+</html>

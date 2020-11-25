@@ -17,11 +17,22 @@ router.use(cookieParser())
 //     })
 // }) 
 
+router.get('/instructions',(req,res)=>{
+    res.render('instructions',{
+        title:'instructions',
+    })
+})
+
 router.get('/login',(req,res)=>{
+    res.render('main',{
+        title:'Main',
+    })
+})  
+router.get('/loginPage',(req,res)=>{
     res.render('login',{
         title:'Login',
     })
-})  
+})
 router.get('/profile',(req,res)=>{
     res.render('view',{
         title:'Profile',

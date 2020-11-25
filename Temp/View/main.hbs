@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Mitochondria</title>
+    {{>logo}}
+    <style>
+        body{
+               
+            height: 100vh;
+        }
+        .main-content{
+            background:black;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-image: url('../img/index_cropped_test.jpg');
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            background-position:center;
+            padding:0px; 
+            height: 100vh;
+            backdrop-filter: blur(10px);
+        }
+        .jumbotron {
+            opacity: 0;
+            background: rgb(250,250,250); /* This is for ie8 and below */
+            background: rgba(250,250,250, 0.7); 
+            }
+        h1{
+            color: black;
+        }
+        h4{
+
+            color: rgb(1, 1, 85);
+        }
+        #interests{
+            float: right;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            background: rgb(27, 27, 148);
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-right: 50px;
+            padding: 10px 30px;
+            border: 1px solid rgb(27, 27, 148);
+            display: inline;
+        }
+        #interestsM{
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            background: rgb(27, 27, 148);
+            border-radius: 20px;
+            margin: 5px auto;
+            padding: 10px 30px;
+            border: 1px solid rgb(27, 27, 148);
+            display: none;
+        }
+        @media only screen and (max-width: 800px) {
+            .main-content{
+                background-image: url('../img/index.jpg');
+            }
+            #interestsM{
+                display: block;
+            }
+            #interests{
+                display: none;
+            }
+            h1{
+                font-size: 25px;
+            }
+            h4{
+                font-size: 15px;
+            }
+        } 
+    </style>
+</head>
+
+<body>
+    {{>GTagM}}
+    <div class="main-content" >
+        <button id="interests" onclick="window.location='/loginPage';">Login</button>
+        <div class="container h-100">
+            <div class="row align-items-center h-100">
+                <div class="col-8 mx-auto">
+                    <div class="jumbotron">
+                        <div class="text-center">
+                            <h1>Welcome to mitochondria.</h1>
+                            <br>
+                            <h4>Start hunting for your intellectual best friend <a href="/loginPage">here.</h4   >
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button id="interestsM" onclick="window.location='/loginPage';">Login</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var op = 0.1; 
+        var element = document.querySelector('.jumbotron')
+        var timer = setInterval(function () {
+            if (op >= 1){
+                clearInterval(timer);
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
+        },35);
+    </script>
+</body>
+
+</html>
