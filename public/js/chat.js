@@ -327,7 +327,7 @@ function joinchat(name)
 
 //render messages
 socket.on('message', (message)=>{
-
+    
     if(message.username===me)
     {
         const html = Mustache.render(locationMessageTemplate,{
@@ -339,6 +339,7 @@ socket.on('message', (message)=>{
     }
     else if(message.username.split("|delim->")[1]==='Quiz')
     {
+        document.getElementById("myAudio").play()
         if(message.username.split("|delim->")[0]===me)
         {
             var msg = message.text.split("|delim->")[0]
@@ -429,6 +430,7 @@ socket.on('message', (message)=>{
         }
     }
     else{
+        document.getElementById("myAudio").play()
         const html = Mustache.render(messageTemplate,{
             message: message.text,
             createdAt: moment(message.createdAt).format('h:mm a')
@@ -616,6 +618,7 @@ socket.on('newmessage', (notif)=>{
                     allmsgs= data
                     //console.log(data)
                     notifyMe()
+                    document.getElementById("myAudio").play()
                     sidebarRender()
                 }
             })

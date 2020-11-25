@@ -1,3 +1,9 @@
+
+const init = decodeURIComponent(window.location.search).split("=")[1]
+if(init!=undefined){
+    document.querySelector('#textareabox').value=init
+}
+
 function getText() {
     var text = document.getElementById("textareabox").value;
     fetch('/process/bio?bio='+text).then((response)=>{

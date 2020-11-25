@@ -6,7 +6,13 @@ const messageThree = document.querySelector('#message-3')
 const messageFour = document.querySelector('#message-4')
 
 document.getElementById("bio").onclick = function () {
-    location.href = "/bio";
+    if(messageFour.textContent!="")
+    {
+        location.href = `/bio?init=${messageFour.textContent}`;
+    }
+    else{
+        location.href = "/bio";
+    }
 };
 document.getElementById("interests").onclick = function () {
     location.href = "/interests/you";
