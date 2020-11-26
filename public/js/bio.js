@@ -9,7 +9,7 @@ function getText()
     var text = document.getElementById("textareabox").value;
     if(text==="")
     {
-        alert("Please write a bio")
+        alert("Please write a meaningful bio")
     }
     else
     {

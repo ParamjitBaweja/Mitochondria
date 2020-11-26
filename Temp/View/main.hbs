@@ -9,9 +9,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
-        body{
-               
-            height: 100vh;
+        html { 
+            height:100%; 
+            }
+        body { 
+            position:absolute; 
+            top:0; bottom:0; right:0; left:0; 
+            overflow: hidden;
         }
         .main-content{
             background:black;
@@ -22,7 +26,7 @@
             background-position:center;
             padding:0px; 
             padding-top: 20px;
-            height: 100vh;
+            height: 100%;
             backdrop-filter: blur(10px);
         }
         .jumbotron {
