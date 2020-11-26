@@ -306,6 +306,7 @@ fetch('/process/interests/you').then((response)=>{
 
 function next()
 {
+    console.log(index)
     if((owners.length-min)==0)
     {
         return noprofiles()
@@ -317,7 +318,7 @@ function next()
     }
     else
     {document.getElementById('previous').style.display='inline-block' }
-    if((index-min)==(owners.length-1))
+    if((index-min)==(bio.length-1))
     {
         document.getElementById('next').style.display='none'
         document.getElementById('more').style.display='inline-block'
@@ -348,6 +349,7 @@ function next()
 function previous()
 {
     index--
+    console.log(index)
     if(index==min)
     {
         document.getElementById('previous').style.display='none' 

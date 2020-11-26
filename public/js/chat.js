@@ -250,7 +250,7 @@ function messagesRender(index)
                 else if(allmsgs[i].messages[j].sender==='System')
                 {
                     const html = Mustache.render(messageTemplate,{
-                        message: "Staring at this screen won't start a conversation...",
+                        message: "Staring at this screen won't start a conversation... If you are not sure how to, maybe check out the quizzing feature.",
                         //createdAt: "System"
                     })
                     messages.insertAdjacentHTML('beforeend',html)
@@ -715,7 +715,7 @@ function oldChatsRender()
         else if(oldchats[i].sender==='System')
         {
             const html = Mustache.render(messageTemplate,{
-                message: "Staring at this screen won't start a conversation...",
+                message: "Staring at this screen won't start a conversation... If you are not sure how to, maybe check out the quizzing feature.",
                 //createdAt: "System"
             })
             messages.insertAdjacentHTML('beforeend',html)
