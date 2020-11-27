@@ -442,7 +442,7 @@ function load()
                         messageFour.textContent = bio[i]
                     }
                 }
-                if((index-min)==(owners.length-1))
+                if((index-min)==(bio.length-1))
                 {
                     document.getElementById('next').style.display='none'
                     document.getElementById('more').style.display='inline-block'
