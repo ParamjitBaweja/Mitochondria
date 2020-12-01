@@ -279,6 +279,7 @@ function messagesRender(index)
 function joinchat(name) 
 {
     const index = names.indexOf(name)
+    FetchAllChats(1)
     if(current!=names[index])
     {
         if(current)
@@ -523,7 +524,6 @@ messageForm.addEventListener('submit',(e)=>{
                         console.log(data.error)
                     } else {
                         socket.emit('newmessage',{notif: rooms[roomind], room:friends[roomind]})
-                        FetchAllChats(1)
                         var tempind = position.indexOf(rooms[roomind])
                         if(tempind>-1)
                         {
