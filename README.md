@@ -1,5 +1,7 @@
 # Mitochondria*
 
+![alt text](https://github.com/ParamjitBaweja/Mitochondria/blob/main/public/img/logo_cropped.png?raw=true)
+
 This application is no longer being developed *
 
 You can access this application at http://mitochondria-beta.herokuapp.com/login#
@@ -11,4 +13,4 @@ Irrespective of factors such as where the person is from, their gender, name, et
         
  This is a web-based application, optimised for both desktop and mobile
         
-        
+![alt text](https://github.com/ParamjitBaweja/Mitochondria/blob/main/public/img/tutorial.png?height=200)      
