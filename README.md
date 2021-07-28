@@ -9,4 +9,6 @@ Irrespective of factors such as where the person is from, their gender, name, et
         It's a platform to essentially find people who share the same likings as you so that you find someone to talk to about the things you want to talk about. Movies, projects, shows, everything.
         Anonymously...
         
+ This is a web-based application, optimised for both desktop and mobile
+        
         
